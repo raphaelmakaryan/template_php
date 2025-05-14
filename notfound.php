@@ -1,5 +1,4 @@
 <?php include('./public/structure/header.php'); ?>
-
 <main>
     <section class="mt-5">
         <div class="container-fluid">
