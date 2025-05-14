@@ -1,6 +1,6 @@
 <?php include('./public/structure/header.php'); ?>
-
 <main>
+    <?php echo $_SERVER['REQUEST_URI']; ?>
     <section class="mt-5">
         <div class="container-fluid">
             <div class="row">

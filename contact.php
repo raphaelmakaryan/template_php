@@ -1,12 +1,11 @@
 <?php include('./public/structure/header.php'); ?>
 
 <main>
-    <?php echo $_SERVER['REQUEST_URI']; ?>
     <section class="mt-5">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <p class="fs-1 text-center">Voici ma page page3.php</p>
+                    <p class="fs-1 text-center">Voici ma page contact.php</p>
                 </div>
             </div>
         </div>
