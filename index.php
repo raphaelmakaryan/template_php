@@ -1,10 +1,5 @@
 <?php
-
-if (isset($_GET['page'])) {
-    $requested_page = $_GET['page'];
-} else {
-    $requested_page = 'notfound';
-}
+$requested_page = isset($_GET['page']) ? $_GET['page'] : 'notfound';
 
 switch ($requested_page) {
     case "page1":
@@ -20,5 +15,6 @@ switch ($requested_page) {
         include(__DIR__ . "/contact.php");
         break;
     default:
-        include(__DIR__ . "/notfound.php");
+        include __DIR__ . "/notfound.php";
+        break;
 }
