@@ -20,13 +20,13 @@
                     <a class="navbar-brand" href="#">PHP</a>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="../page1.php">Page 1</a>
+                            <a class="nav-link" aria-current="page" href="./page1.php">Page 1</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../page2.php">Page 2</a>
+                            <a class="nav-link" href="./page2.php">Page 2</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../page3.php">Page 3</a>
+                            <a class="nav-link" href="./page3.php">Page 3</a>
                         </li>
                     </ul>
                 </div>
