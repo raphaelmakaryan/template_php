@@ -1,15 +1,16 @@
-<?php include('./public/structure/header.php'); ?>
+<?php
 
-<main>
-    <section class="mt-5">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <p class="fs-1">Voici ma page index.php</p>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
-
-<?php include('./public/structure/footer.php'); ?>
+switch ($_SERVER['REQUEST_URI']) {
+    case '/page1':
+        include 'page1.php';
+        break;
+    case '/page2':
+        include 'page2.php';
+        break;
+    case '/page3':
+        include 'page3.php';
+        break;
+    default:
+        include 'notfound.php';
+        break;
+}

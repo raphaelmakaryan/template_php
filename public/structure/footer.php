@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <p>© 2024 Mon Site Web. Tous droits réservés.</p>
+                <p class="fs-6 text-center">Bien vu c'est mon footer ça</p>
             </div>
         </div>
     </div>
