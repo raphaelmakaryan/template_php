@@ -1,2 +1,2 @@
-# template_php
-Cours PHP | Itération 2 | Campus Numérique in the Alps
+# cours_php
+Cours PHP | Campus Numérique in the Alps
