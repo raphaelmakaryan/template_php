@@ -1,20 +1,24 @@
 <?php
-echo $_SERVER['REQUEST_URI'];
 
-switch ($_SERVER['REQUEST_URI']) {
-    case '/page1':
-        include 'page1.php';
+if (isset($_GET['page'])) {
+    $requested_page = $_GET['page'];
+} else {
+    $requested_page = 'notfound';
+}
+
+switch ($requested_page) {
+    case "page1":
+        include(__DIR__ . "/page1.php");
         break;
-    case '/page2':
-        include 'page2.php';
+    case "page2":
+        include(__DIR__ . "/page2.php");
         break;
-    case '/page3':
-        include 'page3.php';
+    case "page3":
+        include(__DIR__ . "/page3.php");
         break;
-    case '/contact':
-        include 'contact.php';
+    case "contact":
+        include(__DIR__ . "/contact.php");
         break;
     default:
-        include 'notfound.php';
-        break;
+        include(__DIR__ . "/notfound.php");
 }
