@@ -4,27 +4,50 @@ session_start();
 $errors = [];
 $validate = "";
 
+function numberStringLength($mot)
+{
+    return strlen($mot);
+}
+
 function validateForm($post)
 {
     global $errors;
-    if (empty($post['inputMessage']) || strlen($post['inputMessage']) < 5) {
-        $errors['inputMessage'] = "Le message doit contenir au moins 5 caractères.";
+
+    if (empty($post['leSelect'])) {
+        $errors['leSelect'] = "Champs de civilité est vide !";
+    } else if (filter_has_var(INPUT_POST, 'leSelect') && !in_array($post['leSelect'], ['Homme', 'Femme'])) {
+        $errors['leSelect'] = "Veuillez sélectionner un sexe valide.";
     }
 
-    if (empty($post['inputEmail']) || !filter_var($post['inputEmail'], FILTER_VALIDATE_EMAIL)) {
-        $errors['inputEmail'] = "L'email n'est pas valide.";
-    }
-
-    if (empty($post['radioOptions']) || !in_array($post['radioOptions'], ['TEL', 'EMAIL', 'RDV'])) {
-        $errors['radioOptions'] = "Veuillez sélectionner une raison de contact valide.";
-    }
-
-    if (empty($post['forName']) || strlen($post['forName']) < 3) {
+    if (empty($post['forName'])) {
+        $errors['forName'] = "Champs de nom est vide !";
+    } else if (filter_has_var(INPUT_POST, 'forName') && numberStringLength($post['forName']) < 3) {
         $errors['forName'] = "Le nom doit contenir au moins 3 caractères.";
     }
 
-    if (empty($post['forPrenom']) || strlen($post['forPrenom']) < 3) {
+
+    if (empty($post['forPrenom'])) {
+        $errors['forPrenom'] = "Champs de prénom est vide !";
+    } else if (filter_has_var(INPUT_POST, 'forPrenom') && numberStringLength($post['forPrenom']) < 3) {
         $errors['forPrenom'] = "Le prénom doit contenir au moins 3 caractères.";
+    }
+
+    if (empty($post['inputEmail'])) {
+        $errors['inputEmail'] = "Champs d'email est vide !";
+    } else if (filter_has_var(INPUT_POST, 'inputEmail') && empty($post['inputEmail']) && filter_var($post['inputEmail'], FILTER_VALIDATE_EMAIL)) {
+        $errors['inputEmail'] = "L'email n'est pas valide.";
+    }
+
+    if (empty($post['radioOptions'])) {
+        $errors['radioOptions'] = "Champs de contact est vide !";
+    } else if (filter_has_var(INPUT_POST, 'radioOptions') && !in_array($post['radioOptions'], ['TEL', 'EMAIL', 'RDV'])) {
+        $errors['radioOptions'] = "Veuillez sélectionner une raison de contact valide.";
+    }
+
+    if (empty($post['inputMessage'])) {
+        $errors['inputMessage'] = "Champs de message est vide !";
+    } else if (filter_has_var(INPUT_POST, 'inputMessage') && numberStringLength($post['inputMessage']) < 5) {
+        $errors['inputMessage'] = "Le message doit contenir au moins 5 caractères.";
     }
 
     return empty($errors);
@@ -33,7 +56,8 @@ function validateForm($post)
 function saveToFile($data)
 {
     $file = __DIR__ . '/fichier.txt';
-    $content = "Nom: {$data['forName']}\n";
+    $content = "Civilité: {$data['leSelect']}\n";
+    $content .= "Nom: {$data['forName']}\n";
     $content .= "Prénom: {$data['forPrenom']}\n";
     $content .= "Email: {$data['inputEmail']}\n";
     $content .= "Raison de contact: {$data['radioOptions']}\n";
@@ -46,8 +70,6 @@ if ($_POST) {
         saveToFile($_POST);
         unset($_SESSION);
         $validate = "Formulaire soumis avec succès.";
-        //echo "Formulaire soumis avec succès.";
-        //$_SESSION = $_POST;
     } else {
         $_SESSION = $_POST;
     }
@@ -76,46 +98,44 @@ if ($_POST) {
                 <div class="col-12">
                     <form method="post" action="contact.php" id="formContact" class="d-flex flex-column align-items-center" novalidate>
                         <div class="d-flex mb-2 flex-column align-items-center">
-                            <p class="fs-6 mb-1">Select</p>
-                            <select class="form-select" aria-label="Default select example" id="leSelect" name="leSelect">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <span class="text-danger"><?php echo $errors['leSelect'] ?? ''; ?></span>
+                            <label for="leSelect" class="fs-6 mb-1">Select</label>
+                            <select class="form-select" aria-label="leSelect" id="leSelect" name="leSelect">
+                                <!-- <option selected> <?php echo htmlspecialchars($_SESSION['leSelect'] ?? ' Choissisez votre sexe'); ?></option> -->
+                                <option selected> Choissisez votre sexe</option>
+                                <option value="Homme">Homme</option>
+                                <option value="Femme">Femme</option>
                             </select>
                         </div>
                         <div class="d-flex flex-column align-items-center mt-2 mb-2">
-                            <label for="forName">Nom</label>
-                            <input type="text" name="forName" id="forName" minlength="3" placeholder="" value="<?php echo htmlspecialchars($_SESSION['forName'] ?? ''); ?>">
                             <span class="text-danger"><?php echo $errors['forName'] ?? ''; ?></span>
+                            <label for="forName">Nom</label>
+                            <input type="text" name="forName" id="forName" minlength="3" placeholder="" class="form-control" value="<?php echo htmlspecialchars($_SESSION['forName'] ?? ''); ?>">
                         </div>
                         <div class="d-flex flex-column align-items-center mt-2 mb-2">
-                            <label for="forPrenom">Prénom</label>
-                            <input type="text" name="forPrenom" id="forPrenom" minlength="3" placeholder="" value="<?php echo htmlspecialchars($_SESSION['forPrenom'] ?? ''); ?>">
                             <span class="text-danger"><?php echo $errors['forPrenom'] ?? ''; ?></span>
+                            <label for="forPrenom">Prénom</label>
+                            <input type="text" name="forPrenom" id="forPrenom" minlength="3" class="form-control" placeholder="" value="<?php echo htmlspecialchars($_SESSION['forPrenom'] ?? ''); ?>">
                         </div>
                         <div class="d-flex flex-column align-items-center mt-4 mb-4">
-                            <div class="form-floating">
-                                <input type="email" class="form-control" name="inputEmail" id="inputEmail" minlength="5" value="<?php echo htmlspecialchars($_SESSION['inputEmail'] ?? ''); ?>">
-                                <label for="inputEmail">Email</label>
-                                <span class="text-danger"><?php echo $errors['inputEmail'] ?? ''; ?></span>
-                            </div>
+                            <span class="text-danger"><?php echo $errors['inputEmail'] ?? ''; ?></span>
+                            <input type="email" class="form-control" placeholder="Email" name="inputEmail" id="inputEmail" value="<?php echo htmlspecialchars($_SESSION['inputEmail'] ?? ''); ?>">
+                            <label for="inputEmail"></label>
                         </div>
                         <div class="d-flex flex-column align-items-center mt-2 mb-2">
                             <p class="fs-6 mb-1">Choix de contact</p>
+                            <span class="text-danger"><?php echo $errors['radioOptions'] ?? ''; ?></span>
                             <label for="radioOption1">TEL</label>
                             <input type="radio" id="radioOption1" name="radioOptions" value="TEL">
                             <label for="radioOption2">EMAIL</label>
                             <input type="radio" id="radioOption2" name="radioOptions" value="EMAIL">
                             <label for="radioOption3">RDV</label>
                             <input type="radio" id="radioOption3" name="radioOptions" value="RDV">
-
-                            <span class="text-danger"><?php echo $errors['radioOptions'] ?? ''; ?></span>
                         </div>
-                        <div class="form-floating d-flex flex-column align-items-center mt-3 mb-3">
-                            <textarea class="form-control" placeholder="Leave a comment here" name="inputMessage" id="inputMessage" minlength="5"><?php echo htmlspecialchars($_SESSION['inputMessage'] ?? ''); ?></textarea>
-                            <label for="inputMessage">Message</label>
-                            <span class="text-danger"><?php echo $errors['inputMessage'] ?? ''; ?></span>
+                        <div class="d-flex flex-column align-items-center mt-3 mb-3">
+                            <span class="text-danger mb-2"><?php echo $errors['inputMessage'] ?? ''; ?></span>
+                            <label for="inputMessage"></label>
+                            <textarea class="form-control" placeholder="Message" name="inputMessage" id="inputMessage"><?php echo htmlspecialchars($_SESSION['inputMessage'] ?? ''); ?></textarea>
                         </div>
                         <div class="d-flex flex-column align-items-center mt-2 mb-5">
                             <button type="submit" class="btn btn-primary">Envoyez</button>
