@@ -15,38 +15,37 @@ function validateForm($post)
 
     if (empty($post['leSelect'])) {
         $errors['leSelect'] = "Champs de civilité est vide !";
-    } else if (filter_has_var(INPUT_POST, 'leSelect') && !in_array($post['leSelect'], ['Homme', 'Femme'])) {
+    } else if (filter_has_var(INPUT_POST, 'leSelect') && !in_array($post['leSelect'], ['Homme', 'Femme']) && filter_input(INPUT_POST, 'leSelect', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['leSelect'] = "Veuillez sélectionner un sexe valide.";
     }
 
     if (empty($post['forName'])) {
         $errors['forName'] = "Champs de nom est vide !";
-    } else if (filter_has_var(INPUT_POST, 'forName') && numberStringLength($post['forName']) < 3) {
+    } else if (filter_has_var(INPUT_POST, 'forName') && numberStringLength($post['forName']) < 3 && filter_input(INPUT_POST, 'forName', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['forName'] = "Le nom doit contenir au moins 3 caractères.";
     }
 
-
     if (empty($post['forPrenom'])) {
         $errors['forPrenom'] = "Champs de prénom est vide !";
-    } else if (filter_has_var(INPUT_POST, 'forPrenom') && numberStringLength($post['forPrenom']) < 3) {
+    } else if (filter_has_var(INPUT_POST, 'forPrenom') && numberStringLength($post['forPrenom']) < 3 && filter_input(INPUT_POST, 'forPrenom', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['forPrenom'] = "Le prénom doit contenir au moins 3 caractères.";
     }
 
     if (empty($post['inputEmail'])) {
         $errors['inputEmail'] = "Champs d'email est vide !";
-    } else if (filter_has_var(INPUT_POST, 'inputEmail') && empty($post['inputEmail']) && filter_var($post['inputEmail'], FILTER_VALIDATE_EMAIL)) {
+    } else if (filter_has_var(INPUT_POST, 'inputEmail') && empty($post['inputEmail']) && filter_var($post['inputEmail'], FILTER_VALIDATE_EMAIL) && filter_input(INPUT_POST, 'inputEmail', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['inputEmail'] = "L'email n'est pas valide.";
     }
 
     if (empty($post['radioOptions'])) {
         $errors['radioOptions'] = "Champs de contact est vide !";
-    } else if (filter_has_var(INPUT_POST, 'radioOptions') && !in_array($post['radioOptions'], ['TEL', 'EMAIL', 'RDV'])) {
+    } else if (filter_has_var(INPUT_POST, 'radioOptions') && !in_array($post['radioOptions'], ['TEL', 'EMAIL', 'RDV']) && filter_input(INPUT_POST, 'radioOptions', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['radioOptions'] = "Veuillez sélectionner une raison de contact valide.";
     }
 
     if (empty($post['inputMessage'])) {
         $errors['inputMessage'] = "Champs de message est vide !";
-    } else if (filter_has_var(INPUT_POST, 'inputMessage') && numberStringLength($post['inputMessage']) < 5) {
+    } else if (filter_has_var(INPUT_POST, 'inputMessage') && numberStringLength($post['inputMessage']) < 5 && filter_input(INPUT_POST, 'inputMessage', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['inputMessage'] = "Le message doit contenir au moins 5 caractères.";
     }
 
