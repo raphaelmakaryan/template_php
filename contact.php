@@ -2,6 +2,7 @@
 ini_set('display_errors', 1);
 session_start();
 $errors = [];
+$validate = "";
 
 function validateForm($post)
 {
@@ -37,14 +38,16 @@ function saveToFile($data)
     $content .= "Email: {$data['inputEmail']}\n";
     $content .= "Raison de contact: {$data['radioOptions']}\n";
     $content .= "Message: {$data['inputMessage']}\n";
-    file_put_contents($file, $content, FILE_APPEND);
+    file_put_contents($file, $content);
 }
 
 if ($_POST) {
     if (validateForm($_POST)) {
         saveToFile($_POST);
-        echo "Formulaire soumis avec succès.";
-        $_SESSION = $_POST;
+        unset($_SESSION);
+        $validate = "Formulaire soumis avec succès.";
+        //echo "Formulaire soumis avec succès.";
+        //$_SESSION = $_POST;
     } else {
         $_SESSION = $_POST;
     }
@@ -67,6 +70,9 @@ if ($_POST) {
     <section class="mt-5">
         <div class="container-fluid">
             <div class="row">
+                <div class="col-12 d-flex align-items-center flex-column mb-5">
+                    <span class="text-success fs-4 text-center"><?php echo $validate; ?></span>
+                </div>
                 <div class="col-12">
                     <form method="post" action="contact.php" id="formContact" class="d-flex flex-column align-items-center" novalidate>
                         <div class="d-flex mb-2 flex-column align-items-center">
