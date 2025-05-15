@@ -49,24 +49,57 @@ function validateForm($post)
         $errors['inputMessage'] = "Le message doit contenir au moins 5 caractères.";
     }
 
+    if (empty($_FILES['inputFile']['name'])) {
+        $errors['inputFile'] = "Champs d'image vide !";
+    } else {
+        saveFileInput();
+    }
+
     return empty($errors);
 }
 
-function saveToFile($data)
+function saveToFile($dataT, $dataF)
 {
-    $file = __DIR__ . '/fichier.txt';
-    $content = "Civilité: {$data['leSelect']}\n";
-    $content .= "Nom: {$data['forName']}\n";
-    $content .= "Prénom: {$data['forPrenom']}\n";
-    $content .= "Email: {$data['inputEmail']}\n";
-    $content .= "Raison de contact: {$data['radioOptions']}\n";
-    $content .= "Message: {$data['inputMessage']}\n";
+    $file = __DIR__ . '/public/form/fichier.txt';
+    $content = "Civilité: {$dataT['leSelect']}\n";
+    $content .= "Nom: {$dataT['forName']}\n";
+    $content .= "Prénom: {$dataT['forPrenom']}\n";
+    $content .= "Email: {$dataT['inputEmail']}\n";
+    $content .= "Raison de contact: {$dataT['radioOptions']}\n";
+    $content .= "Message: {$dataT['inputMessage']}\n";
+    $content .= "Image : " . __DIR__ . "/public/storage/" . "{$dataF['inputFile']['name']}\n";
     file_put_contents($file, $content);
+}
+
+function saveFileInput()
+{
+    global $errors;
+    $target_dir = __DIR__ . "/public/storage/";
+    $target_file = $target_dir . basename($_FILES["inputFile"]["name"]);
+    $uploadOk = 1;
+
+    if (isset($_FILES["inputFile"]["tmp_name"]) && $_FILES["inputFile"]["tmp_name"] !== "") {
+        $check = getimagesize($_FILES["inputFile"]["tmp_name"]);
+        if ($check !== false) {
+            if (move_uploaded_file($_FILES["inputFile"]["tmp_name"], $target_file)) {
+                $uploadOk = 1;
+            } else {
+                $errors['inputFile'] = "Erreur lors du téléchargement du fichier.";
+                $uploadOk = 0;
+            }
+        } else {
+            $errors['inputFile'] = "Le fichier n'est pas une image valide.";
+            $uploadOk = 0;
+        }
+    } else {
+        $errors['inputFile'] = "Aucun fichier téléchargé.";
+        $uploadOk = 0;
+    }
 }
 
 if ($_POST) {
     if (validateForm($_POST)) {
-        saveToFile($_POST);
+        saveToFile($_POST, $_FILES);
         unset($_SESSION);
         $validate = "Formulaire soumis avec succès.";
     } else {
@@ -95,7 +128,7 @@ if ($_POST) {
                     <span class="text-success fs-4 text-center"><?php echo $validate; ?></span>
                 </div>
                 <div class="col-12">
-                    <form method="post" action="contact.php" id="formContact" class="d-flex flex-column align-items-center" novalidate>
+                    <form method="post" action="contact.php" id="formContact" class="d-flex flex-column align-items-center" novalidate enctype="multipart/form-data">
                         <div class="d-flex mb-2 flex-column align-items-center">
                             <span class="text-danger"><?php echo $errors['leSelect'] ?? ''; ?></span>
                             <label for="leSelect" class="fs-6 mb-1">Select</label>
@@ -135,6 +168,13 @@ if ($_POST) {
                             <span class="text-danger mb-2"><?php echo $errors['inputMessage'] ?? ''; ?></span>
                             <label for="inputMessage"></label>
                             <textarea class="form-control" placeholder="Message" name="inputMessage" id="inputMessage"><?php echo htmlspecialchars($_SESSION['inputMessage'] ?? ''); ?></textarea>
+                        </div>
+                        <div class=" d-flex flex-column align-items-center mt-3 mb-3 ">
+                            <span class="text-danger"><?php echo $errors['inputFile'] ?? ''; ?></span>
+                            <div class="input-group d-flex flex-row">
+                                <input type="file" class="form-control" name="inputFile" id="inputFile" value="<?php echo htmlspecialchars($_SESSION['inputFile'] ?? ''); ?>">
+                                <label class="input-group-text" for="inputFile">Fichier</label>
+                            </div>
                         </div>
                         <div class="d-flex flex-column align-items-center mt-2 mb-5">
                             <button type="submit" class="btn btn-primary">Envoyez</button>
