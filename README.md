@@ -1,4 +1,4 @@
-# cours_php
+    # cours_php
 Cours PHP | Campus Numérique in the Alps
 
 # A faire pour lancer XAMPP sur Ubuntu
@@ -8,3 +8,6 @@ Cours PHP | Campus Numérique in the Alps
 - /opt/lampp/lampp stop (arreter)
 - sudo chown -R $USER:$USER /chemin/vers/le/reperoire (permission user sur le dossier)
 - sudo chmod -R 755 /chemin/vers/le/reperoire (permission sur le dossier)
+
+# A faire pour lancer le server php en local
+- php -S localhost:8000

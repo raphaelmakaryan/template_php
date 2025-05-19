@@ -109,7 +109,10 @@ if ($_POST) {
 ?>
 
 <?php include('./public/structure/header.php'); ?>
-
+    <head>
+        <title>Page contact</title>
+        <meta name="description" content="Envoie ton num plz"/>
+    </head>
 <main>
     <section class="mt-5 mb-5">
         <div class="container-fluid">

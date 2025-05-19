@@ -1,14 +1,18 @@
 <?php include('./public/structure/header.php'); ?>
-<main>
-    <section class="mt-5">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <p class="fs-1 text-center">Voici ma page page2.php</p>
+    <head>
+        <title>Page 2 ehoh</title>
+        <meta name="description" content="C'est ma page 2 t'abuse "/>
+    </head>
+    <main>
+        <section class="mt-5">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="fs-1 text-center">Voici ma page page2.php</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 
 <?php include('./public/structure/footer.php'); ?>
