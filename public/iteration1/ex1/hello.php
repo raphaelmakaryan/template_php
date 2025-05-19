@@ -6,7 +6,7 @@
 //var_dump($argc);
 
 /* $argv = Argument passés au script mais renvoie la valeur en array */
-var_dump($argv);
+//var_dump($argv);
 
 function sendHello($nom)
 {

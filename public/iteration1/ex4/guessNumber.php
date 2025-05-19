@@ -13,7 +13,7 @@ function guess($max)
     while ($valuePC) {
         fscanf(STDIN, "%d\n", $valueUser);
         if ($valuePC === $valueUser) {
-            die("Tu as trouvé le chiffre ! C'étais " . $valuePC . " et tu as fais " . $compt . " essaies !");
+            die("Tu as trouvé le chiffre ! C'étais " . $valuePC . " et tu as fait " . $compt . " essais !");
         } else if (abs($valueUser - $valuePC) > 1) {
             $compt++;
             echo "Nombres d'essaies : " . $compt . " | Tu t'éloigne";
