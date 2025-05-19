@@ -2,7 +2,7 @@
 
 //echo "Hello World";
 
-/* $argc = Argument passés au script mais renvoie la valeur en int */
+/* $argc = Argument passés au script mais renvoie la valeur du tableau en int */
 //var_dump($argc);
 
 /* $argv = Argument passés au script mais renvoie la valeur en array */
