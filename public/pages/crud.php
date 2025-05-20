@@ -115,7 +115,6 @@ if ($_POST) {
     <meta name="description" content="C'est ma page crud bravo t'es co" />
 </head>
 <main>
-
     <section class="mt-5">
         <div class="container-fluid">
             <div class="row">
