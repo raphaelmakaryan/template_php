@@ -1,4 +1,4 @@
-<?php include('./public/structure/header.php'); ?>
+<?php include('./public/structures/header.php'); ?>
 
 <head>
     <title>Page 1 best</title>
@@ -18,4 +18,4 @@
     </section>
 </main>
 
-<?php include('./public/structure/footer.php'); ?>
+<?php include('./public/structures/footer.php'); ?>

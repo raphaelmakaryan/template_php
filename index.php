@@ -1,19 +1,37 @@
 <?php
 
-switch ($_SERVER['REQUEST_URI']) {
-    case '/page1':
+$request = $_SERVER['REQUEST_URI'];
+
+switch (true) {
+    case $request === '/page1':
         include './public/pages/page1.php';
         break;
-    case '/page2':
+    case $request === '/page2':
         include './public/pages/page2.php';
         break;
-    case '/page3':
+    case $request === '/page3':
         include './public/pages/page3.php';
         break;
-    case '/contact':
+    case $request === '/contact':
         include './public/pages/contact.php';
         break;
+    case $request === '/login':
+        include './public/pages/login.php';
+        break;
+    case $request === '/dashboard':
+        include './public/pages/dashboard.php';
+        break;
+    case $request === '/crud':
+        include './public/pages/crud.php';
+        break;
+    case $request === '/logout':
+        include './public/pages/logout.php';
+        break;
     default:
-        include './public/pages/notfound.php';
+        if (strpos($request, '/edit') === 0 && isset($_GET['id'])) {
+            include './public/pages/edit.php';
+        } else {
+            include './public/pages/notfound.php';
+        }
         break;
 }
