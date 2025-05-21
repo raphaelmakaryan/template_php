@@ -1,6 +1,7 @@
 <?php
 session_start();
 $folder = dirname(__DIR__) . '/json/articles.json';
+$errors = [];
 
 if (!isset($_SESSION['user'])) {
     header('Location: login');
@@ -8,7 +9,9 @@ if (!isset($_SESSION['user'])) {
     exit;
 };
 
-$errors = [];
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $id = intval($_GET['id']);
+}
 
 function numberStringLength($mot)
 {
@@ -31,12 +34,40 @@ function validateForm($post)
         $errors['forContentMdf'] = "Le contenue doit contenir au moins 3 caractères.";
     }
 
-
     return empty($errors);
+}
+
+function getFileWithId($data)
+{
+    global $folder;
+    global $id;
+
+    $file = file_get_contents($folder);
+    $articles = json_decode($file);
+
+    if ($articles) {
+        foreach ($articles as $key => $article) {
+            if ((int) $article->id === (int) $id) {
+                // Mise à jour de l'article
+                $articles[$key]->title = $data['forTitleMdf'];
+                $articles[$key]->content = $data['forContentMdf'];
+
+                // Sauvegarde dans le fichier
+                file_put_contents($folder, json_encode($articles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+                return true;
+            }
+        }
+    }
+
+    return false; // Aucun article modifié
 }
 
 if ($_POST) {
     if (validateForm($_POST)) {
+        if (getFileWithId($_POST)) {
+            header('Location: crud');
+        }
     }
 }
 
@@ -54,13 +85,13 @@ if ($_POST) {
     <div class="container-fluid">
         <div class="row mt-5 mb-5">
             <div class="col-12 d-flex flex-column align-items-center">
-                <form method="post" action="edit">
+                <form method="post" action="edit?id=<?php echo $id ?>">
                     <div class="d-flex flex-column">
                         <p class="fs-2 text-center">Modifier un article</p>
                     </div>
                     <div class="d-flex flex-column align-items-center mb-3">
                         <label for="forId">ID</label>
-                        <input type="text" name="forId" id="forId" placeholder="" class="form-control" value="0" disabled>
+                        <input type="text" name="forId" id="forId" placeholder="" class="form-control" value="<?php echo $id ?>" disabled>
                     </div>
                     <div class="d-flex flex-column align-items-center mb-3">
                         <label for="forTitleMdf">Titre</label>
