@@ -3,6 +3,7 @@
 session_start();
 $errors = [];
 $folder = dirname(__DIR__) . '/json/articles.json';
+$validate = "";
 
 if (!isset($_SESSION['user'])) {
     header('Location: login');
@@ -30,8 +31,37 @@ function validateForm($post)
     } else if (filter_has_var(INPUT_POST, 'forContent') && numberStringLength($post['forContent']) < 3 && filter_input(INPUT_POST, 'forContent', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['forContent'] = "Le contenue doit contenir au moins 3 caractères.";
     }
+    
+
+    if (empty($_FILES['inputFileCrud']['name'])) {
+        $errors['inputFileCrud'] = "Champs d'image vide !";
+    } else {
+        saveFileInput();
+    }
 
     return empty($errors);
+}
+
+function saveFileInput()
+{
+    global $errors;
+    $target_dir = "public/crud/uploads/";
+    $target_file = $target_dir . basename($_FILES["inputFileCrud"]["name"]);
+
+    if (isset($_FILES["inputFileCrud"]["tmp_name"]) && $_FILES["inputFileCrud"]["tmp_name"] !== "") {
+        $check = getimagesize($_FILES["inputFileCrud"]["tmp_name"]);
+        if ($check !== false) {
+            if (move_uploaded_file($_FILES["inputFileCrud"]["tmp_name"], $target_file)) {
+                //
+            } else {
+                $errors['inputFileCrud'] = "Erreur lors du téléchargement du fichier.";
+            }
+        } else {
+            $errors['inputFileCrud'] = "Le fichier n'est pas une image valide.";
+        }
+    } else {
+        $errors['inputFileCrud'] = "Aucun fichier téléchargé.";
+    }
 }
 
 function displayArticles()
@@ -45,7 +75,10 @@ function displayArticles()
             echo '<div class="col-12 mb-3 border rounded">';
             echo '<div class="container-fluid">';
             echo '<div class="row">';
-            echo '<div class="col-10 d-flex flex-column align-items-start p-2">';
+            echo '<div class="col-1 d-flex flex-column align-items-center p-2">';
+            echo '<img class="img-fluid" src="' . htmlspecialchars($article->image) . '" >';
+            echo '</div>';
+            echo '<div class="col-9 d-flex flex-column align-items-start">';
             echo '<p class="fs-4">' . htmlspecialchars($article->title) . '</p>';
             echo '<p class="fs-6">' . htmlspecialchars($article->content) . '</p>';
             echo '</div>';
@@ -68,7 +101,7 @@ function displayArticles()
     }
 }
 
-function addArticles($data)
+function addArticles($data, $dataF)
 {
     global $folder;
 
@@ -92,7 +125,8 @@ function addArticles($data)
     $newArticle = [
         'id' => $nextId,
         'title' => $data['forTitle'],
-        'content' => $data['forContent']
+        'content' => $data['forContent'],
+        'image' => "public/crud/uploads/" . $dataF["inputFileCrud"]["name"]
     ];
 
     //L'ajoute au tableau avec le reste
@@ -114,7 +148,8 @@ function deleteArticles($data)
                 $newArticle = [
                     'id' => $article->id,
                     'title' => $article->title,
-                    'content' => $article->content
+                    'content' => $article->content,
+                    'image' => $article->image
                 ];
 
                 $updateArticle[] = $newArticle;
@@ -127,9 +162,11 @@ function deleteArticles($data)
 if ($_POST) {
     if (isset($_POST["deleteButton"])) {
         deleteArticles($_POST);
+        $validate = "Article supprimé avec succès.";
     } else {
         if (validateForm($_POST)) {
-            addArticles($_POST);
+            addArticles($_POST, $_FILES);
+            $validate = "Formulaire d'ajout d'article a été un succès.";
         }
     }
 }
@@ -153,8 +190,11 @@ if ($_POST) {
                 </div>
             </div>
             <div class="row mt-5 mb-5">
+                <div class="col-12 d-flex align-items-center flex-column mb-5">
+                    <span class="text-success fs-4 text-center"><?php echo $validate; ?></span>
+                </div>
                 <div class="col-12 d-flex flex-column align-items-center">
-                    <form method="post" action="crud">
+                    <form method="post" action="crud" enctype="multipart/form-data" novalidate>
                         <div class="d-flex flex-column">
                             <p class="fs-2 text-center">Ajouter un article</p>
                         </div>
@@ -163,10 +203,17 @@ if ($_POST) {
                             <label for="forTitle">Titre</label>
                             <input type="text" name="forTitle" id="forTitle" placeholder="" class="form-control">
                         </div>
-                        <div class="d-flex flex-column align-items-center mt-3 mb-2">
+                        <div class="d-flex flex-column align-items-center mt-3 mb-3">
                             <span class="text-danger"><?php echo $errors['forContent'] ?? ''; ?></span>
                             <label for="forContent">Contenue</label>
                             <input type="text" name="forContent" id="forContent" placeholder="" class="form-control">
+                        </div>
+                        <div class=" d-flex flex-column align-items-center mt-3 mb-3 ">
+                            <span class="text-danger"><?php echo $errors['inputFileCrud'] ?? ''; ?></span>
+                            <div class="input-group d-flex flex-row">
+                                <input type="file" class="form-control" name="inputFileCrud" id="inputFileCrud">
+                                <label class="input-group-text" for="inputFileCrud">Fichier</label>
+                            </div>
                         </div>
                         <div class="d-flex flex-column align-items-center mt-4">
                             <button type="submit" class="btn btn-primary">Ajouter</button>
