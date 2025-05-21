@@ -48,34 +48,35 @@ function validateForm($post)
         $errors['inputMessage'] = "Le message doit contenir au moins 5 caractères.";
     }
 
-    /*
+
     if (empty($_FILES['inputFile']['name'])) {
         $errors['inputFile'] = "Champs d'image vide !";
     } else {
         saveFileInput();
     }
-        */
 
     return empty($errors);
 }
 
 function saveToFile($dataT, $dataF)
 {
-    $file = __DIR__ . '/public/contact/fichier.txt';
+    $file = 'public/contact/fichier.txt';
     $content = "Civilité: {$dataT['leSelect']}\n";
     $content .= "Nom: {$dataT['forName']}\n";
     $content .= "Prénom: {$dataT['forPrenom']}\n";
     $content .= "Email: {$dataT['inputEmail']}\n";
     $content .= "Raison de contact: {$dataT['radioOptions']}\n";
     $content .= "Message: {$dataT['inputMessage']}\n";
-   // $content .= "Image : " . __DIR__ . "/public/contact/storage/" . "{$dataF['inputFile']['name']}\n";
+    $content .= "Image : public/contact/storage/" . "{$dataF['inputFile']['name']}\n";
+
     file_put_contents($file, $content);
 }
+
 
 function saveFileInput()
 {
     global $errors;
-    $target_dir = __DIR__ . "/public/contact/storage/";
+    $target_dir = "public/contact/storage/";
     $target_file = $target_dir . basename($_FILES["inputFile"]["name"]);
 
     if (isset($_FILES["inputFile"]["tmp_name"]) && $_FILES["inputFile"]["tmp_name"] !== "") {
@@ -96,7 +97,7 @@ function saveFileInput()
 
 if ($_POST) {
     if (validateForm($_POST)) {
-        unset($_SESSION);
+        session_unset();
         saveToFile($_POST, $_FILES);
         $validate = "Formulaire soumis avec succès.";
     } else {
