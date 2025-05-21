@@ -34,7 +34,6 @@ function validateForm($post)
     return empty($errors);
 }
 
-
 function displayArticles()
 {
     global $folder;
@@ -56,7 +55,9 @@ function displayArticles()
             echo '</a>';
             echo '</div>';
             echo '<div class="col-1 d-flex flex-row align-items-center">';
-            echo '<button type="button" class="btn btn-danger">Supprimer</button>';
+            echo '<form method="post" action="crud">';
+            echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article->id) . '" class="btn btn-danger">Supprimer</button>';
+            echo '</form>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -100,9 +101,36 @@ function addArticles($data)
     file_put_contents($folder, json_encode($articles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }
 
+function deleteArticles($data)
+{
+    global $folder;
+    $data = $data["deleteButton"];
+    $current = file_get_contents($folder);
+    $articles = json_decode($current);
+    $updateArticle = [];
+    if ($articles) {
+        foreach ($articles as $key => $article) {
+            if ((int) $article->id !== (int) $data) {
+                $newArticle = [
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'content' => $article->content
+                ];
+
+                $updateArticle[] = $newArticle;
+            }
+            file_put_contents($folder, json_encode($updateArticle, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        }
+    }
+}
+
 if ($_POST) {
-    if (validateForm($_POST)) {
-        addArticles($_POST);
+    if (isset($_POST["deleteButton"])) {
+        deleteArticles($_POST);
+    } else {
+        if (validateForm($_POST)) {
+            addArticles($_POST);
+        }
     }
 }
 
@@ -131,10 +159,12 @@ if ($_POST) {
                             <p class="fs-2 text-center">Ajouter un article</p>
                         </div>
                         <div class="d-flex flex-column align-items-center mb-3">
+                            <span class="text-danger"><?php echo $errors['forTitle'] ?? ''; ?></span>
                             <label for="forTitle">Titre</label>
                             <input type="text" name="forTitle" id="forTitle" placeholder="" class="form-control">
                         </div>
                         <div class="d-flex flex-column align-items-center mt-3 mb-2">
+                            <span class="text-danger"><?php echo $errors['forContent'] ?? ''; ?></span>
                             <label for="forContent">Contenue</label>
                             <input type="text" name="forContent" id="forContent" placeholder="" class="form-control">
                         </div>
