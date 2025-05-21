@@ -48,32 +48,34 @@ function validateForm($post)
         $errors['inputMessage'] = "Le message doit contenir au moins 5 caractères.";
     }
 
+    /*
     if (empty($_FILES['inputFile']['name'])) {
         $errors['inputFile'] = "Champs d'image vide !";
     } else {
         saveFileInput();
     }
+        */
 
     return empty($errors);
 }
 
 function saveToFile($dataT, $dataF)
 {
-    $file = __DIR__ . '/public/form/fichier.txt';
+    $file = __DIR__ . '/public/contact/fichier.txt';
     $content = "Civilité: {$dataT['leSelect']}\n";
     $content .= "Nom: {$dataT['forName']}\n";
     $content .= "Prénom: {$dataT['forPrenom']}\n";
     $content .= "Email: {$dataT['inputEmail']}\n";
     $content .= "Raison de contact: {$dataT['radioOptions']}\n";
     $content .= "Message: {$dataT['inputMessage']}\n";
-    $content .= "Image : " . __DIR__ . "/public/storage/" . "{$dataF['inputFile']['name']}\n";
+   // $content .= "Image : " . __DIR__ . "/public/contact/storage/" . "{$dataF['inputFile']['name']}\n";
     file_put_contents($file, $content);
 }
 
 function saveFileInput()
 {
     global $errors;
-    $target_dir = __DIR__ . "/public/storage/";
+    $target_dir = __DIR__ . "/public/contact/storage/";
     $target_file = $target_dir . basename($_FILES["inputFile"]["name"]);
 
     if (isset($_FILES["inputFile"]["tmp_name"]) && $_FILES["inputFile"]["tmp_name"] !== "") {
@@ -103,7 +105,7 @@ if ($_POST) {
 }
 ?>
 
-<?php include('./public/structure/header.php'); ?>
+<?php include('./public/structures/header.php'); ?>
 
 <head>
     <title>Page contact</title>
@@ -129,7 +131,7 @@ if ($_POST) {
                     <span class="text-success fs-4 text-center"><?php echo $validate; ?></span>
                 </div>
                 <div class="col-12">
-                    <form method="post" action="contact.php" id="formContact"
+                    <form method="post" action="contact" id="formContact"
                         class="d-flex flex-column align-items-center" novalidate enctype="multipart/form-data">
                         <div class="d-flex mb-2 flex-column align-items-center">
                             <span class="text-danger"><?php echo $errors['leSelect'] ?? ''; ?></span>
@@ -194,4 +196,4 @@ if ($_POST) {
     </section>
 </main>
 
-<?php include('./public/structure/footer.php'); ?>
+<?php include('./public/structures/footer.php'); ?>

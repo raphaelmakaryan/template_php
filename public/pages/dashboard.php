@@ -8,7 +8,7 @@ if (!isset($_SESSION['user'])) {
 }
 ?>
 
-<?php include('./public/structure/header.php'); ?>
+<?php include('./public/structures/header.php'); ?>
 
 <head>
     <title>Page dashboard</title>
@@ -40,4 +40,4 @@ if (!isset($_SESSION['user'])) {
     </section>
 </main>
 
-<?php include('./public/structure/footer.php'); ?>
+<?php include('./public/structures/footer.php'); ?>

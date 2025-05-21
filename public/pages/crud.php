@@ -108,7 +108,7 @@ if ($_POST) {
 
 ?>
 
-<?php include('./public/structure/header.php'); ?>
+<?php include('./public/structures/header.php'); ?>
 
 <head>
     <title>Page crud</title>
@@ -152,4 +152,4 @@ if ($_POST) {
 
 </main>
 
-<?php include('./public/structure/footer.php'); ?>
+<?php include('./public/structures/footer.php'); ?>
