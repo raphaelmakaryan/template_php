@@ -3,30 +3,30 @@
         "id": 3,
         "title": "Titre 3",
         "content": "Contenu 3",
-        "image": "public\/crud\/uploads\/ATT00001.png"
+        "image": "private\/crud\/uploads\/ATT00001.png"
     },
     {
         "id": 4,
         "title": "vincent",
         "content": "ici",
-        "image": "public\/crud\/uploads\/ATT00001.png"
+        "image": "private\/crud\/uploads\/ATT00001.png"
     },
     {
         "id": 5,
         "title": "uru",
         "content": "uru",
-        "image": "public\/crud\/uploads\/ATT00001.png"
+        "image": "private\/crud\/uploads\/ATT00001.png"
     },
     {
         "id": 6,
         "title": "raph",
         "content": "ouaisss",
-        "image": "public\/crud\/uploads\/ATT00001.png"
+        "image": "private\/crud\/uploads\/ATT00001.png"
     },
     {
         "id": 7,
         "title": "le7ouias",
         "content": "ouic'estle7",
-        "image": "public\/crud\/uploads\/test (Copie 3).webp"
+        "image": "private\/crud\/uploads\/test (Copie 3).webp"
     }
 ]

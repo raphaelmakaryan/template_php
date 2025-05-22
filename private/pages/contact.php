@@ -60,14 +60,14 @@ function validateForm($post)
 
 function saveToFile($dataT, $dataF)
 {
-    $file = 'public/contact/fichier.txt';
+    $file = 'private/contact/fichier.txt';
     $content = "Civilité: {$dataT['leSelect']}\n";
     $content .= "Nom: {$dataT['forName']}\n";
     $content .= "Prénom: {$dataT['forPrenom']}\n";
     $content .= "Email: {$dataT['inputEmail']}\n";
     $content .= "Raison de contact: {$dataT['radioOptions']}\n";
     $content .= "Message: {$dataT['inputMessage']}\n";
-    $content .= "Image : public/contact/storage/" . "{$dataF['inputFile']['name']}\n";
+    $content .= "Image : private/contact/storage/" . "{$dataF['inputFile']['name']}\n";
 
     file_put_contents($file, $content);
 }
@@ -76,7 +76,7 @@ function saveToFile($dataT, $dataF)
 function saveFileInput()
 {
     global $errors;
-    $target_dir = "public/contact/storage/";
+    $target_dir = "private/contact/storage/";
     $target_file = $target_dir . basename($_FILES["inputFile"]["name"]);
 
     if (isset($_FILES["inputFile"]["tmp_name"]) && $_FILES["inputFile"]["tmp_name"] !== "") {
@@ -106,7 +106,7 @@ if ($_POST) {
 }
 ?>
 
-<?php include('./public/structures/header.php'); ?>
+<?php include('./private/structures/header.php'); ?>
 
 <head>
     <title>Page contact</title>
@@ -197,4 +197,4 @@ if ($_POST) {
     </section>
 </main>
 
-<?php include('./public/structures/footer.php'); ?>
+<?php include('./private/structures/footer.php'); ?>

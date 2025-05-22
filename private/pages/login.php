@@ -64,7 +64,7 @@ if (isset($_SESSION['user'])) {
 }
 ?>
 
-<?php include('./public/structures/header.php'); ?>
+<?php include('./private/structures/header.php'); ?>
 
 <head>
     <title>Page login</title>
@@ -110,4 +110,4 @@ if (isset($_SESSION['user'])) {
     </section>
 </main>
 
-<?php include('./public/structures/footer.php'); ?>
+<?php include('./private/structures/footer.php'); ?>

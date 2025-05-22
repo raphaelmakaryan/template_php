@@ -74,7 +74,7 @@ if ($_POST) {
 
 ?>
 
-<?php include('./public/structures/header.php'); ?>
+<?php include('./private/structures/header.php'); ?>
 
 <head>
     <title>Page crud</title>
@@ -110,4 +110,4 @@ if ($_POST) {
     </div>
 
 
-    <?php include('./public/structures/footer.php'); ?>
+    <?php include('./private/structures/footer.php'); ?>

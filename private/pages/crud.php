@@ -45,7 +45,7 @@ function validateForm($post)
 function saveFileInput()
 {
     global $errors;
-    $target_dir = "public/crud/uploads/";
+    $target_dir = "private/crud/uploads/";
     $target_file = $target_dir . basename($_FILES["inputFileCrud"]["name"]);
 
     if (isset($_FILES["inputFileCrud"]["tmp_name"]) && $_FILES["inputFileCrud"]["tmp_name"] !== "") {
@@ -126,7 +126,7 @@ function addArticles($data, $dataF)
         'id' => $nextId,
         'title' => $data['forTitle'],
         'content' => $data['forContent'],
-        'image' => "public/crud/uploads/" . $dataF["inputFileCrud"]["name"]
+        'image' => "private/crud/uploads/" . $dataF["inputFileCrud"]["name"]
     ];
 
     //L'ajoute au tableau avec le reste
@@ -173,7 +173,7 @@ if ($_POST) {
 
 ?>
 
-<?php include('./public/structures/header.php'); ?>
+<?php include('./private/structures/header.php'); ?>
 
 <head>
     <title>Page crud</title>
@@ -229,4 +229,4 @@ if ($_POST) {
 
 </main>
 
-<?php include('./public/structures/footer.php'); ?>
+<?php include('./private/structures/footer.php'); ?>

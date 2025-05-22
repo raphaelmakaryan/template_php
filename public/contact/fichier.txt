@@ -1,7 +1,0 @@
-Civilité: Homme
-Nom: mky
-Prénom: raph
-Email: test@test.com
-Raison de contact: RDV
-Message: erzrze
-Image : public/contact/storage/test (Copie 4).webp
