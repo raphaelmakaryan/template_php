@@ -1,20 +1,19 @@
 <?php
-
+include('private/functions/tools.php');
 session_start();
 $errors = [];
 $folder = dirname(__DIR__) . '/json/articles.json';
 $validate = "";
+
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = createTokenCSRF();
+}
 
 if (!isset($_SESSION['user'])) {
     header('Location: login');
     session_destroy();
     exit;
 };
-
-function numberStringLength($mot)
-{
-    return strlen($mot);
-}
 
 function validateForm($post)
 {
@@ -28,20 +27,23 @@ function validateForm($post)
 
     if (empty($post['forContent'])) {
         $errors['forContent'] = "Champs de contenue est vide !";
-    } else if (filter_has_var(INPUT_POST, 'forContent') && numberStringLength($post['forContent']) < 3 && filter_input(INPUT_POST, 'forContent', FILTER_SANITIZE_SPECIAL_CHARS)) {
-        $errors['forContent'] = "Le contenue doit contenir au moins 3 caractères.";
+    } else if (filter_has_var(INPUT_POST, 'forContent') && numberStringLength($post['forContent']) < 100 && filter_input(INPUT_POST, 'forContent', FILTER_SANITIZE_SPECIAL_CHARS)) {
+        $errors['forContent'] = "Le contenue doit contenir au moins 100 caractères.";
     }
-    
 
-    if (empty($_FILES['inputFileCrud']['name'])) {
-        $errors['inputFileCrud'] = "Champs d'image vide !";
-    } else {
+    if (empty($post['categorySelect'])) {
+        $errors['categorySelect'] = "Champs de catégory est vide !";
+    } else if (filter_has_var(INPUT_POST, 'categorySelect') && !in_array($post['categorySelect'], ['test']) && filter_input(INPUT_POST, 'categorySelect', FILTER_SANITIZE_SPECIAL_CHARS)) {
+        $errors['categorySelect'] = "Veuillez sélectionner une catégorie valide.";
+    }
+
+
+    if (!empty($_FILES['inputFileCrud']['name'])) {
         saveFileInput();
     }
 
     return empty($errors);
 }
-
 function saveFileInput()
 {
     global $errors;
@@ -63,7 +65,6 @@ function saveFileInput()
         $errors['inputFileCrud'] = "Aucun fichier téléchargé.";
     }
 }
-
 function displayArticles()
 {
     global $folder;
@@ -75,22 +76,24 @@ function displayArticles()
             echo '<div class="col-12 mb-3 border rounded">';
             echo '<div class="container-fluid">';
             echo '<div class="row">';
-            echo '<div class="col-1 d-flex flex-column align-items-center p-2">';
+            echo '<div class="col-lg-1 col-12 d-flex flex-column align-items-center p-2">';
             echo '<img class="img-fluid" src="' . htmlspecialchars($article->image) . '" >';
             echo '</div>';
-            echo '<div class="col-9 d-flex flex-column align-items-start">';
-            echo '<p class="fs-4">' . htmlspecialchars($article->title) . '</p>';
+            echo '<div class="col-lg-9 col-12 d-flex flex-column align-items-start">';
+            echo '<p class="fs-5">' . htmlspecialchars($article->title) . '</p>';
             echo '<p class="fs-6">' . htmlspecialchars($article->content) . '</p>';
+            echo '<p class="fs-6">' . htmlspecialchars($article->category) . '</p>';
+            echo '<p class="fs-6">Crée le : ' . htmlspecialchars($article->created_at) . ' | Modifié le : ' . htmlspecialchars($article->updated_at) . '</p>';
             echo '</div>';
-            echo '<div class="col-1 d-flex flex-row align-items-center">';
+            echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
             echo "<a href='edit?id=" . htmlspecialchars($article->id) . "'>";
             echo '<button type="button" class="btn btn-secondary">Modifier</button>';
             echo '</a>';
             echo '</div>';
-            echo '<div class="col-1 d-flex flex-row align-items-center">';
-            echo '<form method="post" action="crud">';
+            echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
+            //echo '<form method="post" action="crud">';
             echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article->id) . '" class="btn btn-danger">Supprimer</button>';
-            echo '</form>';
+            //echo '</form>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -100,6 +103,8 @@ function displayArticles()
         echo '<div class="col-12"><p>Aucun article trouvé.</p></div>';
     }
 }
+
+//Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!
 
 function addArticles($data, $dataF)
 {
@@ -121,12 +126,22 @@ function addArticles($data, $dataF)
         $nextId = max($ids) + 1;
     }
 
+    if ($dataF["inputFileCrud"]["name"]) {
+        $forImage = "private/crud/uploads/" . $dataF["inputFileCrud"]["name"];
+    } else {
+        $forImage = "https://placehold.co/250x250";
+    }
+
     // Prepare l'ajout
     $newArticle = [
         'id' => $nextId,
         'title' => $data['forTitle'],
+        'slug' => $data['forTitle'],
         'content' => $data['forContent'],
-        'image' => "private/crud/uploads/" . $dataF["inputFileCrud"]["name"]
+        'category' => $data['categorySelect'],
+        'image' => $forImage,
+        'created_at' => date("Y-m-d h:i:sa"),
+        'updated_at' => date("Y-m-d h:i:sa")
     ];
 
     //L'ajoute au tableau avec le reste
@@ -134,7 +149,6 @@ function addArticles($data, $dataF)
 
     file_put_contents($folder, json_encode($articles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }
-
 function deleteArticles($data)
 {
     global $folder;
@@ -160,7 +174,7 @@ function deleteArticles($data)
 }
 
 if ($_POST) {
-    if (isset($_POST["deleteButton"])) {
+    if (isset($_POST["deleteButton"]) && verifToken($_SESSION)) {
         deleteArticles($_POST);
         $validate = "Article supprimé avec succès.";
     } else {
@@ -208,14 +222,23 @@ if ($_POST) {
                             <label for="forContent">Contenue</label>
                             <input type="text" name="forContent" id="forContent" placeholder="" class="form-control">
                         </div>
-                        <div class=" d-flex flex-column align-items-center mt-3 mb-3 ">
+                        <div class="d-flex mb-3 flex-column align-items-center">
+                            <span class="text-danger"><?php echo $errors['categorySelect'] ?? ''; ?></span>
+                            <label for="categorySelect" class="fs-6 mb-1">Catégorie</label>
+                            <select class="form-select" aria-label="categorySelect" id="categorySelect" name="categorySelect">
+                                <option selected> Choissisez la catégory</option>
+                                <option value="test">test</option>
+                            </select>
+                        </div>
+                        <div class=" d-flex flex-column align-items-center mt-4 mb-3 ">
                             <span class="text-danger"><?php echo $errors['inputFileCrud'] ?? ''; ?></span>
                             <div class="input-group d-flex flex-row">
                                 <input type="file" class="form-control" name="inputFileCrud" id="inputFileCrud">
-                                <label class="input-group-text" for="inputFileCrud">Fichier</label>
+                                <label class="input-group-text" for="inputFileCrud">Image</label>
                             </div>
                         </div>
                         <div class="d-flex flex-column align-items-center mt-4">
+                            <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?? '' ?>">
                             <button type="submit" class="btn btn-primary">Ajouter</button>
                         </div>
                     </form>
@@ -225,8 +248,6 @@ if ($_POST) {
                 <?php displayArticles() ?>
             </div>
     </section>
-
-
 </main>
 
 <?php include('./private/structures/footer.php'); ?>

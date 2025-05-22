@@ -1,32 +1,22 @@
 [
     {
-        "id": 3,
-        "title": "Titre 3",
-        "content": "Contenu 3",
-        "image": "private\/crud\/uploads\/ATT00001.png"
+        "id": 1,
+        "title": "zeze",
+        "slug": "zeze",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "test",
+        "image": "private\/crud\/uploads\/ATT00001.png",
+        "created_at": "maintenant",
+        "updated_at": "2025-05-22 02:38:00pm"
     },
     {
-        "id": 4,
-        "title": "vincent",
-        "content": "ici",
-        "image": "private\/crud\/uploads\/ATT00001.png"
-    },
-    {
-        "id": 5,
-        "title": "uru",
-        "content": "uru",
-        "image": "private\/crud\/uploads\/ATT00001.png"
-    },
-    {
-        "id": 6,
+        "id": 2,
         "title": "raph",
-        "content": "ouaisss",
-        "image": "private\/crud\/uploads\/ATT00001.png"
-    },
-    {
-        "id": 7,
-        "title": "le7ouias",
-        "content": "ouic'estle7",
-        "image": "private\/crud\/uploads\/test (Copie 3).webp"
+        "slug": "raph",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "test",
+        "image": "https:\/\/placehold.co\/250x250",
+        "created_at": "2025-05-22 02:32:35pm",
+        "updated_at": "2025-05-22 02:32:35pm"
     }
 ]

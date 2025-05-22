@@ -1,11 +1,10 @@
 <?php
 session_start();
-$users = ["user" => "alice", "pass" => "1234"];
+include('private/functions/tools.php');
 $errors = [];
 
-function numberStringLength($mot)
-{
-    return strlen($mot);
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = createTokenCSRF();
 }
 
 function validateForm($post)
@@ -28,35 +27,14 @@ function validateForm($post)
     return empty($errors);
 }
 
-function verificationLogin($data)
-{
-    if ($data) {
-        global $users;
-        global $errors;
-
-        if ($users["user"] === $data["forUser"]) {
-            if ($users["pass"] === $data["forPass"]) {
-                return true;
-            } else {
-                $errors['forPass'] = "Le mot de passe que vous avez entré est incorrect.";
-            }
-        } else {
-            $errors['forUser'] = "Le nom que vous avez entré n'existe pas.";
-        }
-        return empty($errors);
-    }
-}
-
-
 if ($_POST) {
-    if (validateForm($_POST) && verificationLogin($_POST)) {
+    if (validateForm($_POST) && verificationLogin($_POST) && verifToken($_SESSION)) {
         $_SESSION['user'] = $_POST['forUser'];
         header('Location: dashboard');
     } else {
         $errors['forUser'] = "Erreur de connexion !";
     }
 }
-
 
 if (isset($_SESSION['user'])) {
     header('Location: dashboard');
@@ -99,6 +77,7 @@ if (isset($_SESSION['user'])) {
                                     <input type="text" name="forPass" id="forPass" minlength="3" placeholder="" class="form-control">
                                 </div>
                                 <div class="d-flex flex-column align-items-center mt-4">
+                                    <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?? '' ?>">
                                     <button type="submit" class="btn btn-primary">Connection</button>
                                 </div>
                             </form>

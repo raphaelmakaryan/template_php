@@ -1,11 +1,11 @@
 <?php
+include('private/functions/tools.php');
 session_start();
 $errors = [];
 $validate = "";
 
-function numberStringLength($mot)
-{
-    return strlen($mot);
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = createTokenCSRF();
 }
 
 function validateForm($post)
@@ -55,6 +55,8 @@ function validateForm($post)
         saveFileInput();
     }
 
+
+
     return empty($errors);
 }
 
@@ -71,7 +73,6 @@ function saveToFile($dataT, $dataF)
 
     file_put_contents($file, $content);
 }
-
 
 function saveFileInput()
 {
@@ -96,7 +97,7 @@ function saveFileInput()
 }
 
 if ($_POST) {
-    if (validateForm($_POST)) {
+    if (validateForm($_POST) && verifToken($_SESSION)) {
         session_unset();
         saveToFile($_POST, $_FILES);
         $validate = "Formulaire soumis avec succès.";
@@ -104,6 +105,8 @@ if ($_POST) {
         $_SESSION = $_POST;
     }
 }
+
+
 ?>
 
 <?php include('./private/structures/header.php'); ?>
@@ -188,6 +191,7 @@ if ($_POST) {
                             </div>
                         </div>
                         <div class="d-flex flex-column align-items-center mt-2 mb-5">
+                            <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?? '' ?>">
                             <button type="submit" class="btn btn-primary">Envoyez</button>
                         </div>
                     </form>
