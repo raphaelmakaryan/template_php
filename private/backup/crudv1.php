@@ -33,7 +33,7 @@ function validateForm($post)
 
     if (empty($post['categorySelect'])) {
         $errors['categorySelect'] = "Champs de catégory est vide !";
-    } else if (filter_has_var(INPUT_POST, 'categorySelect') && !in_array($post['categorySelect'], ['Actualité', 'Tutoriel']) && filter_input(INPUT_POST, 'categorySelect', FILTER_SANITIZE_SPECIAL_CHARS)) {
+    } else if (filter_has_var(INPUT_POST, 'categorySelect') && !in_array($post['categorySelect'], ['Actualité','Tutoriel']) && filter_input(INPUT_POST, 'categorySelect', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['categorySelect'] = "Veuillez sélectionner une catégorie valide.";
     }
 
@@ -65,77 +65,15 @@ function saveFileInput()
         $errors['inputFileCrud'] = "Aucun fichier téléchargé.";
     }
 }
-
 function displayArticles()
 {
     global $folder;
 
     $file = file_get_contents($folder);
     $articles = json_decode($file);
-
-    if (!$articles || count($articles) === 0) {
-        echo '<div class="col-12"><p>Aucun article trouvé.</p></div>';
-        return;
-    }
-
-    // Grouper les articles par catégorie
-    $grouped = [];
-    foreach ($articles as $article) {
-        $grouped[$article->category][] = $article;
-    }
-
-    $hasGroup = false;
-    foreach ($grouped as $category => $catArticles) {
-        if (count($catArticles) >= 2) {
-            $hasGroup = true;
-            echo '<div class="col-12 mb-4">';
-            echo '<h4 class="fw-bold">' . htmlspecialchars($category) . '</h4>';
-            foreach ($catArticles as $article) {
-                echo '<div class="mb-3 border rounded">';
-                echo '<div class="container-fluid">';
-                echo '<div class="row">';
-                echo '<div class="col-lg-1 col-12 d-flex flex-column align-items-center p-2">';
-                echo '<img class="img-fluid" src="' . htmlspecialchars($article->image) . '" >';
-                echo '</div>';
-                echo '<div class="col-lg-9 col-12 d-flex flex-column align-items-start">';
-                echo '<p class="fs-5">' . htmlspecialchars($article->title) . '</p>';
-                echo '<p class="fs-6">' . htmlspecialchars($article->content) . '</p>';
-                echo '<p class="fs-6">' . htmlspecialchars($article->category) . '</p>';
-                echo '<p class="fs-6">Crée le : ' . htmlspecialchars($article->created_at) . ' | Modifié le : ' . htmlspecialchars($article->updated_at) . '</p>';
-                echo '</div>';
-                echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
-                echo "<a href='edit?id=" . htmlspecialchars($article->id) . "'>";
-                echo '<button type="button" class="btn btn-secondary">Modifier</button>';
-                echo '</a>';
-                echo '</div>';
-                echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
-                echo '<form method="post" action="crud">';
-                echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
-                echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article->id) . '" class="btn btn-danger">Supprimer</button>';
-                echo '</form>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-            echo '</div>';
-        }
-    }
-
-    // Afficher les articles restants
-    $rest = [];
-    foreach ($grouped as $category => $catArticles) {
-        if (count($catArticles) < 2) {
-            foreach ($catArticles as $article) {
-                $rest[] = $article;
-            }
-        }
-    }
-    if (count($rest) > 0) {
-        echo '<div class="col-12 mb-4">';
-        echo '<h4 class="fw-bold">Autres articles</h4>';
-        foreach ($rest as $article) {
-            echo '<div class="mb-3 border rounded">';
+    if ($articles) {
+        foreach ($articles as $article) {
+            echo '<div class="col-12 mb-3 border rounded">';
             echo '<div class="container-fluid">';
             echo '<div class="row">';
             echo '<div class="col-lg-1 col-12 d-flex flex-column align-items-center p-2">';
@@ -162,10 +100,7 @@ function displayArticles()
             echo '</div>';
             echo '</div>';
         }
-        echo '</div>';
-    }
-
-    if (!$hasGroup && count($rest) === 0) {
+    } else {
         echo '<div class="col-12"><p>Aucun article trouvé.</p></div>';
     }
 }
@@ -213,6 +148,7 @@ function addArticles($data, $dataF)
 
     file_put_contents($folder, json_encode($articles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }
+
 function deleteArticles($data)
 {
     global $folder;
@@ -252,6 +188,7 @@ if ($_POST) {
         }
     }
 }
+
 ?>
 
 <?php include('./private/structures/header.php'); ?>

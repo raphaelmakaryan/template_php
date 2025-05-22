@@ -65,108 +65,58 @@ function saveFileInput()
         $errors['inputFileCrud'] = "Aucun fichier téléchargé.";
     }
 }
-
 function displayArticles()
 {
     global $folder;
 
     $file = file_get_contents($folder);
     $articles = json_decode($file);
+    if ($articles) {
+        foreach ($articles as $article) {
+            echo "<tr>";
 
-    if (!$articles || count($articles) === 0) {
-        echo '<div class="col-12"><p>Aucun article trouvé.</p></div>';
-        return;
-    }
+            echo "<td>";
+            echo htmlspecialchars($article->id);
+            echo "</td>";
 
-    // Grouper les articles par catégorie
-    $grouped = [];
-    foreach ($articles as $article) {
-        $grouped[$article->category][] = $article;
-    }
-
-    $hasGroup = false;
-    foreach ($grouped as $category => $catArticles) {
-        if (count($catArticles) >= 2) {
-            $hasGroup = true;
-            echo '<div class="col-12 mb-4">';
-            echo '<h4 class="fw-bold">' . htmlspecialchars($category) . '</h4>';
-            foreach ($catArticles as $article) {
-                echo '<div class="mb-3 border rounded">';
-                echo '<div class="container-fluid">';
-                echo '<div class="row">';
-                echo '<div class="col-lg-1 col-12 d-flex flex-column align-items-center p-2">';
-                echo '<img class="img-fluid" src="' . htmlspecialchars($article->image) . '" >';
-                echo '</div>';
-                echo '<div class="col-lg-9 col-12 d-flex flex-column align-items-start">';
-                echo '<p class="fs-5">' . htmlspecialchars($article->title) . '</p>';
-                echo '<p class="fs-6">' . htmlspecialchars($article->content) . '</p>';
-                echo '<p class="fs-6">' . htmlspecialchars($article->category) . '</p>';
-                echo '<p class="fs-6">Crée le : ' . htmlspecialchars($article->created_at) . ' | Modifié le : ' . htmlspecialchars($article->updated_at) . '</p>';
-                echo '</div>';
-                echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
-                echo "<a href='edit?id=" . htmlspecialchars($article->id) . "'>";
-                echo '<button type="button" class="btn btn-secondary">Modifier</button>';
-                echo '</a>';
-                echo '</div>';
-                echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
-                echo '<form method="post" action="crud">';
-                echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
-                echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article->id) . '" class="btn btn-danger">Supprimer</button>';
-                echo '</form>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-            echo '</div>';
-        }
-    }
-
-    // Afficher les articles restants
-    $rest = [];
-    foreach ($grouped as $category => $catArticles) {
-        if (count($catArticles) < 2) {
-            foreach ($catArticles as $article) {
-                $rest[] = $article;
-            }
-        }
-    }
-    if (count($rest) > 0) {
-        echo '<div class="col-12 mb-4">';
-        echo '<h4 class="fw-bold">Autres articles</h4>';
-        foreach ($rest as $article) {
-            echo '<div class="mb-3 border rounded">';
-            echo '<div class="container-fluid">';
-            echo '<div class="row">';
-            echo '<div class="col-lg-1 col-12 d-flex flex-column align-items-center p-2">';
+            echo "<td>";
             echo '<img class="img-fluid" src="' . htmlspecialchars($article->image) . '" >';
-            echo '</div>';
-            echo '<div class="col-lg-9 col-12 d-flex flex-column align-items-start">';
-            echo '<p class="fs-5">' . htmlspecialchars($article->title) . '</p>';
-            echo '<p class="fs-6">' . htmlspecialchars($article->content) . '</p>';
-            echo '<p class="fs-6">' . htmlspecialchars($article->category) . '</p>';
-            echo '<p class="fs-6">Crée le : ' . htmlspecialchars($article->created_at) . ' | Modifié le : ' . htmlspecialchars($article->updated_at) . '</p>';
-            echo '</div>';
-            echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
+            echo "</td>";
+
+            echo "<td>";
+            echo htmlspecialchars($article->title);
+            echo "</td>";
+
+            echo "<td>";
+            echo htmlspecialchars($article->content);
+            echo "</td>";
+
+            echo "<td>";
+            echo htmlspecialchars($article->category);
+            echo "</td>";
+
+            echo "<td>";
+            echo htmlspecialchars($article->created_at);
+            echo "</td>";
+
+            echo "<td>";
+            echo htmlspecialchars($article->updated_at);
+            echo "</td>";
+
+            echo "<td>";
             echo "<a href='edit?id=" . htmlspecialchars($article->id) . "'>";
             echo '<button type="button" class="btn btn-secondary">Modifier</button>';
             echo '</a>';
-            echo '</div>';
-            echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
+            echo "</td>";
+
+            echo "<td>";
             echo '<form method="post" action="crud">';
             echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
             echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article->id) . '" class="btn btn-danger">Supprimer</button>';
-            echo '</form>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-        }
-        echo '</div>';
-    }
+            echo "</td>";
 
-    if (!$hasGroup && count($rest) === 0) {
-        echo '<div class="col-12"><p>Aucun article trouvé.</p></div>';
+            echo "</tr>";
+        }
     }
 }
 
@@ -213,6 +163,7 @@ function addArticles($data, $dataF)
 
     file_put_contents($folder, json_encode($articles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }
+
 function deleteArticles($data)
 {
     global $folder;
@@ -252,6 +203,7 @@ if ($_POST) {
         }
     }
 }
+
 ?>
 
 <?php include('./private/structures/header.php'); ?>
@@ -313,7 +265,26 @@ if ($_POST) {
                 </div>
             </div>
             <div class="row mt-3">
-                <?php displayArticles() ?>
+                <div class="col-12 table-responsive">
+                    <table class="table table-striped-columns">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Contenue</th>
+                                <th scope="col">Categorie</th>
+                                <th scope="col">Crée le :</th>
+                                <th scope="col">Modifié le :</th>
+                                <th scope="col">Modifier</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php displayArticles() ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
     </section>
 </main>

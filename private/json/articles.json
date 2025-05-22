@@ -2,21 +2,51 @@
     {
         "id": 1,
         "title": "zeze",
-        "slug": "zeze",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "test",
+        "slug": "zeze",
         "image": "private\/crud\/uploads\/ATT00001.png",
+        "category": "Actualité",
         "created_at": "maintenant",
-        "updated_at": "2025-05-22 02:38:00pm"
+        "updated_at": "2025-05-22 03:00:01pm"
     },
     {
         "id": 2,
         "title": "raph",
         "slug": "raph",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "test",
+        "category": "Tutoriel",
         "image": "https:\/\/placehold.co\/250x250",
-        "created_at": "2025-05-22 02:32:35pm",
-        "updated_at": "2025-05-22 02:32:35pm"
+        "created_at": "2025-05-22 03:14:35pm",
+        "updated_at": "2025-05-22 03:14:35pm"
+    },
+    {
+        "id": 3,
+        "title": "test",
+        "slug": "test",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "Tutoriel",
+        "image": "https:\/\/placehold.co\/250x250",
+        "created_at": "2025-05-22 03:19:52pm",
+        "updated_at": "2025-05-22 03:19:52pm"
+    },
+    {
+        "id": 4,
+        "title": "ytytyty",
+        "slug": "ytytyty",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "Actualité",
+        "image": "https:\/\/placehold.co\/250x250",
+        "created_at": "2025-05-22 03:20:00pm",
+        "updated_at": "2025-05-22 03:20:00pm"
+    },
+    {
+        "id": 5,
+        "title": "testcat",
+        "slug": "testcat",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "Tutoriel",
+        "image": "https:\/\/placehold.co\/250x250",
+        "created_at": "2025-05-22 03:23:55pm",
+        "updated_at": "2025-05-22 03:23:55pm"
     }
 ]
