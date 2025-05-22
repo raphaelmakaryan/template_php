@@ -38,7 +38,7 @@ function validateForm($post)
 
     if (empty($post['categorySelectMdf'])) {
         $errors['categorySelectMdf'] = "Champs de catégory est vide !";
-    } else if (filter_has_var(INPUT_POST, 'categorySelectMdf') && !in_array($post['categorySelectMdf'], ['Actualité','Tutoriel']) && filter_input(INPUT_POST, 'categorySelectMdf', FILTER_SANITIZE_SPECIAL_CHARS)) {
+    } else if (filter_has_var(INPUT_POST, 'categorySelectMdf') && !in_array($post['categorySelectMdf'], ['Actualité', 'Tutoriel']) && filter_input(INPUT_POST, 'categorySelectMdf', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['categorySelectMdf'] = "Veuillez sélectionner une catégorie valide.";
     }
 
@@ -136,8 +136,8 @@ if ($_POST) {
                         <label for="categorySelectMdf" class="fs-6 mb-1">Catégorie</label>
                         <select class="form-select" aria-label="categorySelectMdf" id="categorySelectMdf" name="categorySelectMdf">
                             <option selected> Choissisez la catégory</option>
-                           <option value="Actualité">Actualité</option>
-                                <option value="Tutoriel">Tutoriel</option>
+                            <option value="Actualité">Actualité</option>
+                            <option value="Tutoriel">Tutoriel</option>
                         </select>
                     </div>
                     <div class="d-flex flex-column align-items-center mt-4">

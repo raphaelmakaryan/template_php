@@ -1,0 +1,6 @@
+https://github.com/raphaelmakaryan/cours_php/issues/15
+
+-> Faire le systeme de supprimer / modifier dans le home (reprendre la meme que crud)
+-> faire systeme de recherche
+-> fitlrage par categorie
+-> le reste

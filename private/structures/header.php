@@ -16,8 +16,11 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                    <a class="navbar-brand" href="page1">PHP</a>
+                    <a class="navbar-brand" href="home">PHP</a>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="home">Acceuil</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="page1">Page 1</a>
                         </li>
@@ -37,4 +40,4 @@
                 </div>
             </div>
         </nav>
-    </header >
+    </header>

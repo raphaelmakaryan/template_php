@@ -3,6 +3,9 @@
 $request = $_SERVER['REQUEST_URI'];
 
 switch (true) {
+    case $request === '/home':
+        include './private/pages/home.php';
+        break;
     case $request === '/page1':
         include './private/pages/page1.php';
         break;
@@ -30,6 +33,8 @@ switch (true) {
     default:
         if (strpos($request, '/edit') === 0 && isset($_GET['id'])) {
             include './private/pages/edit.php';
+        } else if (strpos($request, '/article') === 0 && isset($_GET['id'])) {
+            include './private/pages/article.php';
         } else {
             include './private/pages/notfound.php';
         }
