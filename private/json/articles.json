@@ -48,5 +48,45 @@
         "image": "https:\/\/placehold.co\/250x250",
         "created_at": "2025-05-22 03:23:55pm",
         "updated_at": "2025-05-22 03:23:55pm"
+    },
+    {
+        "id": 6,
+        "title": "uiuiuiui",
+        "slug": "uiuiuiui",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "Actualité",
+        "image": "private\/crud\/uploads\/test (Copie 3).webp",
+        "created_at": "2025-05-22 03:42:31pm",
+        "updated_at": "2025-05-22 03:42:31pm"
+    },
+    {
+        "id": 7,
+        "title": "raph",
+        "slug": "raph",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "Actualité",
+        "image": "private\/crud\/uploads\/test (Copie 3).webp",
+        "created_at": "2025-05-22 03:46:07pm",
+        "updated_at": "2025-05-22 03:46:07pm"
+    },
+    {
+        "id": 8,
+        "title": "(t(t",
+        "slug": "(t(t",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "Actualité",
+        "image": "private\/crud\/uploads\/test (Copie 5).webp",
+        "created_at": "2025-05-22 03:47:49pm",
+        "updated_at": "2025-05-22 03:47:49pm"
+    },
+    {
+        "id": 9,
+        "title": "yuu",
+        "slug": "yuu",
+        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
+        "category": "Actualité",
+        "image": "private\/crud\/uploads\/img_682f2c0e5daf32.69085221.webp",
+        "created_at": "2025-05-22 03:52:14pm",
+        "updated_at": "2025-05-22 03:52:14pm"
     }
 ]

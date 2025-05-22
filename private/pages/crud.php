@@ -44,17 +44,39 @@ function validateForm($post)
 
     return empty($errors);
 }
+
+
 function saveFileInput()
 {
     global $errors;
     $target_dir = "private/crud/uploads/";
-    $target_file = $target_dir . basename($_FILES["inputFileCrud"]["name"]);
 
     if (isset($_FILES["inputFileCrud"]["tmp_name"]) && $_FILES["inputFileCrud"]["tmp_name"] !== "") {
+        // taille du fichier
+        $fileSize = filesize($_FILES["inputFileCrud"]["tmp_name"]);
+        // extension
+        $fileExt = strtolower(pathinfo($_FILES["inputFileCrud"]["name"], PATHINFO_EXTENSION));
+        $allowedExt = ['jpg', 'jpeg', 'png', 'gif', "webp"];
+
+        if ($fileSize > 2 * 1024 * 1024) {
+            $errors['inputFileCrud'] = "La taille du fichier ne doit pas dépasser 2 Mo.";
+            return;
+        }
+
+        if (!in_array($fileExt, $allowedExt)) {
+            $errors['inputFileCrud'] = "Extension de fichier non autorisée. Seuls les fichiers jpg, png, gif sont acceptés.";
+            return;
+        }
+
         $check = getimagesize($_FILES["inputFileCrud"]["tmp_name"]);
         if ($check !== false) {
+            // Renommer le fichier avec un hash ou timestamp
+            $newFileName = uniqid('img_', true) . '.' . $fileExt;
+            $target_file = $target_dir . $newFileName;
+
             if (move_uploaded_file($_FILES["inputFileCrud"]["tmp_name"], $target_file)) {
-                //
+                // Mettre à jour le nom du fichier dans $_FILES pour l'utiliser ailleurs
+                $_FILES["inputFileCrud"]["name"] = $newFileName;
             } else {
                 $errors['inputFileCrud'] = "Erreur lors du téléchargement du fichier.";
             }
