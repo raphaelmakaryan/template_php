@@ -81,10 +81,23 @@ function saveFileInput()
     $target_file = $target_dir . basename($_FILES["inputFile"]["name"]);
 
     if (isset($_FILES["inputFile"]["tmp_name"]) && $_FILES["inputFile"]["tmp_name"] !== "") {
+        $fileSize = filesize($_FILES["inputFile"]["tmp_name"]);
+        $fileExt = strtolower(pathinfo($_FILES["inputFileCrud"]["name"], PATHINFO_EXTENSION));
+        $allowedExt = ['jpg', 'jpeg', 'png', 'gif', "webp"];
+
+        if ($fileSize > 2 * 1024 * 1024) {
+            $errors['inputFileCrud'] = "La taille du fichier ne doit pas dépasser 2 Mo.";
+            return;
+        }
+
+        if (!in_array($fileExt, $allowedExt)) {
+            $errors['inputFileCrud'] = "Extension de fichier non autorisée. Seuls les fichiers jpg, png, gif sont acceptés.";
+            return;
+        }
+
         $check = getimagesize($_FILES["inputFile"]["tmp_name"]);
         if ($check !== false) {
             if (move_uploaded_file($_FILES["inputFile"]["tmp_name"], $target_file)) {
-                //
             } else {
                 $errors['inputFile'] = "Erreur lors du téléchargement du fichier.";
             }

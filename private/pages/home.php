@@ -13,12 +13,13 @@ function displayArticles()
     $articles = json_decode($file);
     if ($articles) {
         foreach ($articles as $article) {
-            echo '<div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-3 d-flex flex-column align-items-center forArticle">';
+            echo '<div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-3 flex-column align-items-center forArticle">';
             echo '<div class="card mb-2 mt-2" style="width: 18rem;">';
             echo '<img src="' . htmlspecialchars($article->image) . '" class="card-img-top" alt="...">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">' . htmlspecialchars($article->title) . '</h5>';
-            echo '<p class="card-text">' . htmlspecialchars($article->content) . '</p>';
+            echo '<p class="card-text">' . htmlspecialchars($article->content) . ' </p>';
+            echo '<p class="card-category">Catégorie : ' . htmlspecialchars($article->category) . ' </p>';
             echo '<a href="article?id=' . htmlspecialchars($article->id) . '" class="btn btn-primary">Voir le produit</a>';
             echo '</div>';
             echo '</div>';
@@ -59,15 +60,14 @@ function displayArticles()
                 <div class="col-lg-4"></div>
             </div>
             <div class="row mt-5 mb-5 ">
-                <div class="col-2 ms-2 d-flex flex-column align-items-center">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                <div class="col-12 col-lg-3 ms-2 d-flex flex-column align-items-center">
+                    <select class="form-select" id="selectFilter" aria-label="Default select example" onchange="filterCategory()">
+                        <option selected value="all">Filtrage par catégorie</option>
+                        <option value="Actualité">Actualité</option>
+                        <option value="Tutoriel">Tutoriel</option>
                     </select>
                 </div>
-                <div class="col-10"></div>
+                <div class="col-lg-9"></div>
             </div>
             <div class="row mt-5">
                 <?php displayArticles() ?>
@@ -83,12 +83,29 @@ function displayArticles()
         let itemsCard = document.getElementsByClassName("forArticle");
 
         for (let i = 0; i < divCard.length; i++) {
-            let searchValue = divCard[i].lastChild.firstChild.innerText;
-            if (searchValue.includes(input)) {
-                console.log("il contient")
-                divCard[i].style.display = "";
+            let titleCard = divCard[i].lastChild.firstChild.innerText;
+            let contentCard = divCard[i].lastChild.children[1].innerText
+            if (titleCard.includes(input) || contentCard.includes(input)) {
+                itemsCard[i].style.display = "";
             } else {
-                divCard[i].style.display = "none";
+                itemsCard[i].style.display = "none";
+            }
+        }
+    }
+
+    function filterCategory() {
+        let input = document.getElementById("selectFilter").value;
+        let divCard = document.getElementsByClassName("card");
+        let itemsCard = document.getElementsByClassName("forArticle");
+
+        for (let i = 0; i < divCard.length; i++) {
+            let categoryCard = divCard[i].lastChild.children[2].innerText
+            if (categoryCard.includes(input)) {
+                itemsCard[i].style.display = "";
+            } else if (input === "all") {
+                itemsCard[i].style.display = "flex";
+            } else {
+                itemsCard[i].style.display = "none";
             }
         }
     }
