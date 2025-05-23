@@ -1,4 +1,4 @@
-<?php include('./public/structures/header.php'); ?>
+<?php include('./private/structures/header.php'); ?>
 
 <head>
     <title>Page 2 ehoh</title>
@@ -18,4 +18,4 @@
     </section>
 </main>
 
-<?php include('./public/structures/footer.php'); ?>
+<?php include('./private/structures/footer.php'); ?>

@@ -1,4 +1,4 @@
-<?php include('./public/structures/header.php'); ?>
+<?php include('./private/structures/header.php'); ?>
     <head>
         <title>Bah t'es perdu</title>
         <meta name="description" content="C'est ma page qui dis que ta pas trouvé la page "/>
@@ -15,4 +15,4 @@
         </section>
     </main>
 
-<?php include('./public/structures/footer.php'); ?>
+<?php include('./private/structures/footer.php'); ?>

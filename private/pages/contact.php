@@ -1,11 +1,11 @@
 <?php
+include('private/functions/tools.php');
 session_start();
 $errors = [];
 $validate = "";
 
-function numberStringLength($mot)
-{
-    return strlen($mot);
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = createTokenCSRF();
 }
 
 function validateForm($post)
@@ -55,35 +55,49 @@ function validateForm($post)
         saveFileInput();
     }
 
+
+
     return empty($errors);
 }
 
 function saveToFile($dataT, $dataF)
 {
-    $file = 'public/contact/fichier.txt';
+    $file = 'private/contact/fichier.txt';
     $content = "Civilité: {$dataT['leSelect']}\n";
     $content .= "Nom: {$dataT['forName']}\n";
     $content .= "Prénom: {$dataT['forPrenom']}\n";
     $content .= "Email: {$dataT['inputEmail']}\n";
     $content .= "Raison de contact: {$dataT['radioOptions']}\n";
     $content .= "Message: {$dataT['inputMessage']}\n";
-    $content .= "Image : public/contact/storage/" . "{$dataF['inputFile']['name']}\n";
+    $content .= "Image : private/contact/storage/" . "{$dataF['inputFile']['name']}\n";
 
     file_put_contents($file, $content);
 }
 
-
 function saveFileInput()
 {
     global $errors;
-    $target_dir = "public/contact/storage/";
+    $target_dir = "private/contact/storage/";
     $target_file = $target_dir . basename($_FILES["inputFile"]["name"]);
 
     if (isset($_FILES["inputFile"]["tmp_name"]) && $_FILES["inputFile"]["tmp_name"] !== "") {
+        $fileSize = filesize($_FILES["inputFile"]["tmp_name"]);
+        $fileExt = strtolower(pathinfo($_FILES["inputFileCrud"]["name"], PATHINFO_EXTENSION));
+        $allowedExt = ['jpg', 'jpeg', 'png', 'gif', "webp"];
+
+        if ($fileSize > 2 * 1024 * 1024) {
+            $errors['inputFileCrud'] = "La taille du fichier ne doit pas dépasser 2 Mo.";
+            return;
+        }
+
+        if (!in_array($fileExt, $allowedExt)) {
+            $errors['inputFileCrud'] = "Extension de fichier non autorisée. Seuls les fichiers jpg, png, gif sont acceptés.";
+            return;
+        }
+
         $check = getimagesize($_FILES["inputFile"]["tmp_name"]);
         if ($check !== false) {
             if (move_uploaded_file($_FILES["inputFile"]["tmp_name"], $target_file)) {
-                //
             } else {
                 $errors['inputFile'] = "Erreur lors du téléchargement du fichier.";
             }
@@ -96,7 +110,7 @@ function saveFileInput()
 }
 
 if ($_POST) {
-    if (validateForm($_POST)) {
+    if (validateForm($_POST) && verifToken($_SESSION)) {
         session_unset();
         saveToFile($_POST, $_FILES);
         $validate = "Formulaire soumis avec succès.";
@@ -104,9 +118,10 @@ if ($_POST) {
         $_SESSION = $_POST;
     }
 }
+
 ?>
 
-<?php include('./public/structures/header.php'); ?>
+<?php include('./private/structures/header.php'); ?>
 
 <head>
     <title>Page contact</title>
@@ -188,6 +203,7 @@ if ($_POST) {
                             </div>
                         </div>
                         <div class="d-flex flex-column align-items-center mt-2 mb-5">
+                            <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?? '' ?>">
                             <button type="submit" class="btn btn-primary">Envoyez</button>
                         </div>
                     </form>
@@ -197,4 +213,4 @@ if ($_POST) {
     </section>
 </main>
 
-<?php include('./public/structures/footer.php'); ?>
+<?php include('./private/structures/footer.php'); ?>

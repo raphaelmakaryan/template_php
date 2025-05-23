@@ -1,11 +1,10 @@
 <?php
 session_start();
-$users = ["user" => "alice", "pass" => "1234"];
+include('private/functions/tools.php');
 $errors = [];
 
-function numberStringLength($mot)
-{
-    return strlen($mot);
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = createTokenCSRF();
 }
 
 function validateForm($post)
@@ -28,35 +27,19 @@ function validateForm($post)
     return empty($errors);
 }
 
-function verificationLogin($data)
-{
-    if ($data) {
-        global $users;
-        global $errors;
-
-        if ($users["user"] === $data["forUser"]) {
-            if ($users["pass"] === $data["forPass"]) {
-                return true;
-            } else {
-                $errors['forPass'] = "Le mot de passe que vous avez entré est incorrect.";
-            }
-        } else {
-            $errors['forUser'] = "Le nom que vous avez entré n'existe pas.";
-        }
-        return empty($errors);
-    }
-}
-
-
 if ($_POST) {
-    if (validateForm($_POST) && verificationLogin($_POST)) {
-        $_SESSION['user'] = $_POST['forUser'];
-        header('Location: dashboard');
+    if (validateForm($_POST) && verifToken($_SESSION)) {
+        $verif = verificationLogin($_POST);
+        if (is_array($verif)) {
+            $_SESSION['user']["name"] = $_POST['forUser'];
+            $_SESSION['user']['role'] = $verif[0];
+            $_SESSION['user']['id'] = $verif[1];
+            header('Location: dashboard');
+        }
     } else {
         $errors['forUser'] = "Erreur de connexion !";
     }
 }
-
 
 if (isset($_SESSION['user'])) {
     header('Location: dashboard');
@@ -64,7 +47,7 @@ if (isset($_SESSION['user'])) {
 }
 ?>
 
-<?php include('./public/structures/header.php'); ?>
+<?php include('./private/structures/header.php'); ?>
 
 <head>
     <title>Page login</title>
@@ -99,6 +82,7 @@ if (isset($_SESSION['user'])) {
                                     <input type="text" name="forPass" id="forPass" minlength="3" placeholder="" class="form-control">
                                 </div>
                                 <div class="d-flex flex-column align-items-center mt-4">
+                                    <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?? '' ?>">
                                     <button type="submit" class="btn btn-primary">Connection</button>
                                 </div>
                             </form>
@@ -110,4 +94,4 @@ if (isset($_SESSION['user'])) {
     </section>
 </main>
 
-<?php include('./public/structures/footer.php'); ?>
+<?php include('./private/structures/footer.php'); ?>
