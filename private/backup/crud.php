@@ -146,9 +146,10 @@ function displayArticles()
                 echo '</a>';
                 echo '</div>';
                 echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
-                echo "<a href='delete?id=" . htmlspecialchars($article['id']) . "'>";
-                echo '<button type="button" class="btn btn-danger">Supprimer</button>';
-                echo '</a>';
+                echo '<form method="post" action="crud">';
+                echo '<input type="hidden" name="token" value="' . htmlspecialchars($_SESSION['token']) . '">';
+                echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article['id']) . '" class="btn btn-danger">Supprimer</button>';
+                echo '</form>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
@@ -189,9 +190,10 @@ function displayArticles()
             echo '</a>';
             echo '</div>';
             echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
-            echo "<a href='delete?id=" . htmlspecialchars($article['id']) . "'>";
-            echo '<button type="button" class="btn btn-danger">Supprimer</button>';
-            echo '</a>';
+            echo '<form method="post" action="crud">';
+            echo '<input type="hidden" name="token" value="' . htmlspecialchars($_SESSION['token']) . '">';
+            echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article['id']) . '" class="btn btn-danger">Supprimer</button>';
+            echo '</form>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -251,9 +253,14 @@ function addArticles($data, $dataF)
 }
 
 if ($_POST) {
-    if (validateForm($_POST) && verifToken($_SESSION)) {
-        addArticles($_POST, $_FILES);
-        $validate = "Formulaire d'ajout d'article a été un succès.";
+    if (isset($_POST["deleteButton"]) && verifToken($_SESSION)) {
+        deleteArticles($_POST);
+        $validate = "Article supprimé avec succès.";
+    } else {
+        if (validateForm($_POST) && verifToken($_SESSION)) {
+            addArticles($_POST, $_FILES);
+            $validate = "Formulaire d'ajout d'article a été un succès.";
+        }
     }
 }
 ?>

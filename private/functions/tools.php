@@ -46,7 +46,6 @@ function verifToken($session)
 function deleteArticles($data)
 {
     global $folder;
-    $data = $data["deleteButton"];
     $current = file_get_contents($folder);
     $articles = json_decode($current);
     $updateArticle = [];
@@ -62,6 +61,7 @@ function deleteArticles($data)
                     'category' => $article->category,
                     'created_at' => $article->created_at,
                     'updated_at' => $article->updated_at,
+                    'creator' => $article->creator,
                 ];
 
                 $updateArticle[] = $newArticle;

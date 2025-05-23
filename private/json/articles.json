@@ -1,57 +1,13 @@
 [
     {
-        "id": 1,
-        "title": "ouiiii",
-        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "slug": "ouiiii",
-        "image": "https:\/\/placehold.co\/250x250",
-        "category": "Tutoriel",
-        "creator": 0,
-        "created_at": "2025-05-22 03:14:35pm",
-        "updated_at": "2025-05-23 09:14:46am"
-    },
-    {
-        "id": 2,
-        "title": "ouiiii",
-        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "slug": "ouiiii",
-        "image": "https:\/\/placehold.co\/250x250",
-        "category": "Tutoriel",
-        "creator": 0,
-        "created_at": "2025-05-22 03:14:35pm",
-        "updated_at": "2025-05-23 09:14:46am"
-    },
-    {
-        "id": 3,
-        "title": "ytytyty",
-        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "slug": "ytytyty",
-        "image": "https:\/\/placehold.co\/250x250",
-        "category": "Actualité",
-        "creator": 0,
-        "created_at": "2025-05-22 03:20:00pm",
-        "updated_at": "2025-05-22 03:20:00pm"
-    },
-    {
-        "id": 4,
-        "title": "ouiiii",
-        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "slug": "ouiiii",
-        "image": "https:\/\/placehold.co\/250x250",
-        "category": "Actualité",
-        "creator": 0,
-        "created_at": "2025-05-22 03:14:35pm",
-        "updated_at": "2025-05-23 09:14:46am"
-    },
-    {
         "id": 5,
         "title": "zzzzzzz",
-        "slug": "zzzzzzz",
         "content": "qsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqsqs",
-        "category": "Actualité",
+        "slug": "zzzzzzz",
         "image": "private\/crud\/uploads\/img_6830479280aee6.43049092.webp",
+        "category": "Actualité",
         "created_at": "2025-05-23 12:01:54pm",
         "updated_at": "2025-05-23 12:01:54pm",
-        "creator": 1
+        "creator": 0
     }
 ]

@@ -71,10 +71,9 @@ if ($_POST) {
                                 </a>
                             </div>
                             <div class="col-12 d-flex flex-column align-items-center mt-2 mb-2">
-                                <form method="post" action="article?id=<?php echo $articleNow->id;  ?>">
-                                    <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?>">
-                                    <button type="submit" name="deleteButton" value="<?php echo $articleNow->id;  ?>" class="btn btn-danger">Supprimer</button>
-                                </form>
+                                <a href='delete?id=<?php echo $articleNow->id;  ?>'>
+                                    <button type=" button" class="btn btn-danger">Supprimer</button>
+                                </a>
                             </div>
                         <?php } ?>
                         <div class="col-12 d-flex flex-column align-items-start mt-3">

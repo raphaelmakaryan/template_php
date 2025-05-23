@@ -35,6 +35,8 @@ switch (true) {
             include './private/pages/edit.php';
         } else if (strpos($request, '/article') === 0 && isset($_GET['id'])) {
             include './private/pages/article.php';
+        } else if (strpos($request, '/delete') === 0 && isset($_GET['id'])) {
+            include './private/pages/delete.php';
         } else {
             include './private/pages/notfound.php';
         }
