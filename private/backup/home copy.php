@@ -13,7 +13,7 @@ function displayArticles()
     $articles = json_decode($file);
     if ($articles) {
         foreach ($articles as $article) {
-            echo '<div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-3 d-flex flex-column align-items-center forArticle">';
+            echo '<div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-3 d-flex flex-column align-items-center">';
             echo '<div class="card mb-2 mt-2" style="width: 18rem;">';
             echo '<img src="' . htmlspecialchars($article->image) . '" class="card-img-top" alt="...">';
             echo '<div class="card-body">';
@@ -49,13 +49,15 @@ function displayArticles()
             </div>
             <div class="row mt-5 mb-5">
                 <div class="col-lg-4"></div>
-                <div class="col-12 col-lg-2 mt-5 d-flex flex-column align-items-center">
-                    <span class="text-danger"><?php echo $errors['forTitle'] ?? ''; ?></span>
-                    <input type="text" name="forTitle" id="forTitle" placeholder="" class="form-control">
-                </div>
-                <div class="col-12 col-lg-2 mt-5 d-flex flex-column align-items-center">
-                    <button type="submit" class="btn btn-primary" onclick="searchBar()">Rechercher</button>
-                </div>
+                <form action="javascript:searchBar()" class="d-flex flex-column align-items-center">
+                    <div class="col-12 col-lg-2 mt-5 d-flex flex-column align-items-center">
+                        <span class="text-danger"><?php echo $errors['forTitle'] ?? ''; ?></span>
+                        <input type="text" name="forTitle" id="forTitle" placeholder="" class="form-control">
+                    </div>
+                    <div class="col-12 col-lg-2 mt-5 d-flex flex-column align-items-center">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </div>
+                </form>
                 <div class="col-lg-4"></div>
             </div>
             <div class="row mt-5 mb-5 ">
@@ -79,18 +81,22 @@ function displayArticles()
 <script>
     function searchBar() {
         let input = document.getElementById("forTitle").value;
-        let divCard = document.getElementsByClassName("card");
-        let itemsCard = document.getElementsByClassName("forArticle");
+        /*
+        let commandItems = document.getElementsByClassName("unArticle");
 
-        for (let i = 0; i < divCard.length; i++) {
-            let searchValue = divCard[i].lastChild.firstChild.innerText;
-            if (searchValue.includes(input)) {
-                console.log("il contient")
-                divCard[i].style.display = "";
+        for (let i = 0; i < commandItems.length; i++) {
+            let commandItem = commandItems[i];
+            let type = commandItem
+                .getElementsByClassName("type")[0]
+                .innerText.toLowerCase();
+
+            if (type.includes(input)) {
+                commandItem.style.display = "";
             } else {
-                divCard[i].style.display = "none";
+                commandItem.style.display = "none";
             }
         }
+            */
     }
 </script>
 

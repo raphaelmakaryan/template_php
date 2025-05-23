@@ -20,7 +20,7 @@ function validateForm($post)
     global $errors;
 
     if (empty($post['forTitle'])) {
-        $errors['forTitle'] = "Champs de titr est vide !";
+        $errors['forTitle'] = "Champs de titre est vide !";
     } else if (filter_has_var(INPUT_POST, 'forTitle') && numberStringLength($post['forTitle']) < 3 && filter_input(INPUT_POST, 'forTitle', FILTER_SANITIZE_SPECIAL_CHARS)) {
         $errors['forTitle'] = "Le titr doit contenir au moins 3 caractères.";
     }
@@ -44,7 +44,6 @@ function validateForm($post)
 
     return empty($errors);
 }
-
 
 function saveFileInput()
 {
@@ -234,33 +233,6 @@ function addArticles($data, $dataF)
     $articles[] = $newArticle;
 
     file_put_contents($folder, json_encode($articles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-}
-function deleteArticles($data)
-{
-    global $folder;
-    $data = $data["deleteButton"];
-    $current = file_get_contents($folder);
-    $articles = json_decode($current);
-    $updateArticle = [];
-    if ($articles) {
-        foreach ($articles as $key => $article) {
-            if ((int) $article->id !== (int) $data) {
-                $newArticle = [
-                    'id' => $article->id,
-                    'title' => $article->title,
-                    'content' => $article->content,
-                    'slug' => $article->slug,
-                    'image' => $article->image,
-                    'category' => $article->category,
-                    'created_at' => $article->created_at,
-                    'updated_at' => $article->updated_at,
-                ];
-
-                $updateArticle[] = $newArticle;
-            }
-            file_put_contents($folder, json_encode($updateArticle, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-        }
-    }
 }
 
 if ($_POST) {

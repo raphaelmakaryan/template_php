@@ -10,6 +10,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     getFileWithId($id);
 }
 
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = createTokenCSRF();
+}
 
 function getFileWithId($id)
 {
@@ -28,6 +31,13 @@ function getFileWithId($id)
     }
 }
 
+if ($_POST) {
+    if (isset($_POST["deleteButton"]) && verifToken($_SESSION)) {
+        deleteArticles($_POST);
+        header('Location: home');
+    }
+}
+
 ?>
 
 <?php include('./private/structures/header.php'); ?>
@@ -40,8 +50,10 @@ function getFileWithId($id)
 <main>
     <div class="container-fluid">
         <div class="row mt-5 mb-5">
-            <div class="col-12 d-flex flex-column align-items-center rounded border border-dark p-5">
-                <p class=" fs-1 text-center">Voici ma page <span class="fw-bold">article</span>.php</p>
+            <div class="col-12 d-flex flex-column align-items-center">
+                <div class="d-flex flex-column p-5 rounded border border-dark p-5">
+                    <p class=" fs-1 text-center">Voici ma page <span class="fw-bold">article</span>.php</p>
+                </div>
             </div>
         </div>
         <div class="row mt-5 mb-5">
@@ -53,19 +65,26 @@ function getFileWithId($id)
                 <div class="container-fluid">
                     <div class="row mt-3 ">
                         <?php if (isset($_SESSION['user'])) { ?>
-                            <div class="col-12 d-flex flex-column align-items-center">
-                                <button type="submit" name="deleteButton" class="btn btn-danger mb-5" value="<?php echo $articleNow->id;  ?>">Supprimer</button>
-                                <button type="button" class="btn btn-secondary mb-5">Modifier</button>
+                            <div class="col-12 d-flex flex-column align-items-center mt-2 mb-2">
+                                <a href='edit?id=<?php echo $articleNow->id;  ?>'>
+                                    <button type="button" class="btn btn-secondary">Modifier</button>
+                                </a>
+                            </div>
+                            <div class="col-12 d-flex flex-column align-items-center mt-2 mb-2">
+                                <form method="post" action="article?id=<?php echo $articleNow->id;  ?>">
+                                    <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?>">
+                                    <button type="submit" name="deleteButton" value="<?php echo $articleNow->id;  ?>" class="btn btn-danger">Supprimer</button>
+                                </form>
                             </div>
                         <?php } ?>
                         <div class="col-12 d-flex flex-column align-items-start mt-3">
-                            <p><?php echo $articleNow->title;  ?></p>
-                            <p><?php echo $articleNow->content;  ?></p>
-                            <p><?php echo $articleNow->slug;  ?></p>
-                            <p><?php echo $articleNow->id;  ?></p>
-                            <p><?php echo $articleNow->category;  ?></p>
-                            <p><?php echo $articleNow->created_at;  ?></p>
-                            <p><?php echo $articleNow->updated_at;  ?></p>
+                            <p>ID : <?php echo $articleNow->id;  ?></p>
+                            <p>Titre : <?php echo $articleNow->title;  ?></p>
+                            <p>Contenue : <?php echo $articleNow->content;  ?></p>
+                            <p>Slug : <?php echo $articleNow->slug;  ?></p>
+                            <p>Catégorie : <?php echo $articleNow->category;  ?></p>
+                            <p>Crée le : <?php echo $articleNow->created_at;  ?></p>
+                            <p>Mis a jour le : <?php echo $articleNow->updated_at;  ?></p>
                         </div>
                     </div>
                 </div>

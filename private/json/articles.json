@@ -1,91 +1,81 @@
 [
     {
-        "id": 1,
-        "title": "zeze",
-        "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "slug": "zeze",
-        "image": "private\/crud\/uploads\/ATT00001.png",
-        "category": "Actualité",
-        "created_at": "maintenant",
-        "updated_at": "2025-05-22 03:00:01pm"
-    },
-    {
         "id": 2,
-        "title": "raph",
-        "slug": "raph",
+        "title": "ouiiii",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "Tutoriel",
+        "slug": "ouiiii",
         "image": "https:\/\/placehold.co\/250x250",
+        "category": "Tutoriel",
         "created_at": "2025-05-22 03:14:35pm",
-        "updated_at": "2025-05-22 03:14:35pm"
+        "updated_at": "2025-05-23 09:14:46am"
     },
     {
         "id": 3,
         "title": "test",
-        "slug": "test",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "Tutoriel",
+        "slug": "test",
         "image": "https:\/\/placehold.co\/250x250",
+        "category": "Tutoriel",
         "created_at": "2025-05-22 03:19:52pm",
         "updated_at": "2025-05-22 03:19:52pm"
     },
     {
         "id": 4,
         "title": "ytytyty",
-        "slug": "ytytyty",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "Actualité",
+        "slug": "ytytyty",
         "image": "https:\/\/placehold.co\/250x250",
+        "category": "Actualité",
         "created_at": "2025-05-22 03:20:00pm",
         "updated_at": "2025-05-22 03:20:00pm"
     },
     {
         "id": 5,
         "title": "testcat",
-        "slug": "testcat",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "Tutoriel",
+        "slug": "testcat",
         "image": "https:\/\/placehold.co\/250x250",
+        "category": "Tutoriel",
         "created_at": "2025-05-22 03:23:55pm",
         "updated_at": "2025-05-22 03:23:55pm"
     },
     {
         "id": 6,
         "title": "uiuiuiui",
-        "slug": "uiuiuiui",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "Actualité",
+        "slug": "uiuiuiui",
         "image": "private\/crud\/uploads\/test (Copie 3).webp",
+        "category": "Actualité",
         "created_at": "2025-05-22 03:42:31pm",
         "updated_at": "2025-05-22 03:42:31pm"
     },
     {
         "id": 7,
         "title": "raph",
-        "slug": "raph",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "Actualité",
+        "slug": "raph",
         "image": "private\/crud\/uploads\/test (Copie 3).webp",
+        "category": "Actualité",
         "created_at": "2025-05-22 03:46:07pm",
         "updated_at": "2025-05-22 03:46:07pm"
     },
     {
         "id": 8,
         "title": "(t(t",
-        "slug": "(t(t",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "Actualité",
+        "slug": "(t(t",
         "image": "private\/crud\/uploads\/test (Copie 5).webp",
+        "category": "Actualité",
         "created_at": "2025-05-22 03:47:49pm",
         "updated_at": "2025-05-22 03:47:49pm"
     },
     {
         "id": 9,
         "title": "yuu",
-        "slug": "yuu",
         "content": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor asperiores autem maiores id, beatae dolorum, corrupti adipisci distinctio laboriosam officia sint? Quod provident amet deleniti? Sapiente deleniti tenetur cum!",
-        "category": "Actualité",
+        "slug": "yuu",
         "image": "private\/crud\/uploads\/img_682f2c0e5daf32.69085221.webp",
+        "category": "Actualité",
         "created_at": "2025-05-22 03:52:14pm",
         "updated_at": "2025-05-22 03:52:14pm"
     }

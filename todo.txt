@@ -1,8 +1,5 @@
 https://github.com/raphaelmakaryan/cours_php/issues/15
 file:///home/user/T%C3%A9l%C3%A9chargements/Projet_PHP_Mini_CMS_Advanced.pdf
 
--> Faire le systeme de supprimer / modifier dans le home (reprendre la meme que crud)
--> faire systeme de recherche
 -> fitlrage par categorie
 -> le reste
--> refaire le readme

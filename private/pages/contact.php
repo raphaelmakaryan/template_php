@@ -106,7 +106,6 @@ if ($_POST) {
     }
 }
 
-
 ?>
 
 <?php include('./private/structures/header.php'); ?>
