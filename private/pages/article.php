@@ -64,7 +64,7 @@ if ($_POST) {
             <div class="col-lg-4 mt-5 border">
                 <div class="container-fluid">
                     <div class="row mt-3 ">
-                        <?php if (isset($_SESSION['user'])) { ?>
+                        <?php if (isset($_SESSION['user']) && $articleNow->creator === $_SESSION["user"]["id"] || isset($_SESSION['user']) && $_SESSION["user"]["role"] === "admin") { ?>
                             <div class="col-12 d-flex flex-column align-items-center mt-2 mb-2">
                                 <a href='edit?id=<?php echo $articleNow->id;  ?>'>
                                     <button type="button" class="btn btn-secondary">Modifier</button>
@@ -78,13 +78,13 @@ if ($_POST) {
                             </div>
                         <?php } ?>
                         <div class="col-12 d-flex flex-column align-items-start mt-3">
-                            <p>ID : <?php echo $articleNow->id;  ?></p>
-                            <p>Titre : <?php echo $articleNow->title;  ?></p>
-                            <p>Contenue : <?php echo $articleNow->content;  ?></p>
-                            <p>Slug : <?php echo $articleNow->slug;  ?></p>
-                            <p>Catégorie : <?php echo $articleNow->category;  ?></p>
-                            <p>Crée le : <?php echo $articleNow->created_at;  ?></p>
-                            <p>Mis a jour le : <?php echo $articleNow->updated_at;  ?></p>
+                            <p class="fs-6 text-truncate">ID : <?php echo $articleNow->id;  ?></p>
+                            <p class="fs-6 text-truncate">Titre : <?php echo $articleNow->title;  ?></p>
+                            <p class="fs-6 text-truncate w-75">Contenue : <?php echo $articleNow->content;  ?></p>
+                            <p class="fs-6 text-truncate">Slug : <?php echo $articleNow->slug;  ?></p>
+                            <p class="fs-6 text-truncate">Catégorie : <?php echo $articleNow->category;  ?></p>
+                            <p class="fs-6 text-truncate">Crée le : <?php echo $articleNow->created_at;  ?></p>
+                            <p class="fs-6 text-truncate">Mis a jour le : <?php echo $articleNow->updated_at;  ?></p>
                         </div>
                     </div>
                 </div>

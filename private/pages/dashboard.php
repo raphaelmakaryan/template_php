@@ -20,11 +20,17 @@ if (!isset($_SESSION['user'])) {
             <div class="row">
                 <div class="col-12 d-flex flex-column align-items-center">
                     <div class="d-flex flex-column p-5 rounded border border-dark">
-                        <p class=" fs-1 text-center">Bienvenue <?php echo $_SESSION['user'] ?> sur la page <span class="fw-bold">dashboard</span>.php !</p>
+                        <p class=" fs-1 text-center">Bienvenue <?php echo $_SESSION['user']["name"] ?> sur la page <span class="fw-bold">dashboard</span>.php !</p>
                     </div>
                 </div>
             </div>
             <div class="row mt-5 ">
+                <div class="col-12 d-flex flex-column align-items-center mb-2">
+                    <p>Vous avez le rôle : <?php echo $_SESSION['user']["role"] ?></p>
+                </div>
+                <div class="col-12 d-flex flex-column align-items-center mb-2">
+                    <p>Vous avez l'id n° : <?php echo $_SESSION['user']["id"] ?></p>
+                </div>
                 <div class="col-12 d-flex flex-column align-items-center mb-2">
                     <a href="crud">
                         <button type="button" class="btn btn-primary">Crud</button>

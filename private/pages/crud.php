@@ -91,18 +91,34 @@ function displayArticles()
 {
     global $folder;
 
-    $file = file_get_contents($folder);
-    $articles = json_decode($file);
+    if (!file_exists($folder)) {
+        echo '<div class="col-12"><p>Aucun article trouvé.</p></div>';
+        return;
+    }
 
-    if (!$articles || count($articles) === 0) {
+    $file = file_get_contents($folder);
+    $articles = json_decode($file, true);
+
+    if (!is_array($articles) || empty($articles)) {
+        echo '<div class="col-12"><p>Aucun article trouvé.</p></div>';
+        return;
+    }
+
+    // Filtrer les articles de l'utilisateur courant
+    $userId = $_SESSION["user"]["id"];
+    $userArticles = array_filter($articles, function ($article) use ($userId) {
+        return isset($article['creator']) && $article['creator'] == $userId;
+    });
+
+    if (empty($userArticles)) {
         echo '<div class="col-12"><p>Aucun article trouvé.</p></div>';
         return;
     }
 
     // Grouper les articles par catégorie
     $grouped = [];
-    foreach ($articles as $article) {
-        $grouped[$article->category][] = $article;
+    foreach ($userArticles as $article) {
+        $grouped[$article['category']][] = $article;
     }
 
     $hasGroup = false;
@@ -116,23 +132,23 @@ function displayArticles()
                 echo '<div class="container-fluid">';
                 echo '<div class="row">';
                 echo '<div class="col-lg-1 col-12 d-flex flex-column align-items-center p-2">';
-                echo '<img class="img-fluid" src="' . htmlspecialchars($article->image) . '" >';
+                echo '<img class="img-fluid" src="' . htmlspecialchars($article['image']) . '" >';
                 echo '</div>';
                 echo '<div class="col-lg-9 col-12 d-flex flex-column align-items-start">';
-                echo '<p class="fs-5">' . htmlspecialchars($article->title) . '</p>';
-                echo '<p class="fs-6">' . htmlspecialchars($article->content) . '</p>';
-                echo '<p class="fs-6">' . htmlspecialchars($article->category) . '</p>';
-                echo '<p class="fs-6">Crée le : ' . htmlspecialchars($article->created_at) . ' | Modifié le : ' . htmlspecialchars($article->updated_at) . '</p>';
+                echo '<p class="fs-5">' . htmlspecialchars($article['title']) . '</p>';
+                echo '<p class="fs-6">' . htmlspecialchars($article['content']) . '</p>';
+                echo '<p class="fs-6">' . htmlspecialchars($article['category']) . '</p>';
+                echo '<p class="fs-6">Crée le : ' . htmlspecialchars($article['created_at']) . ' | Modifié le : ' . htmlspecialchars($article['updated_at']) . '</p>';
                 echo '</div>';
                 echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
-                echo "<a href='edit?id=" . htmlspecialchars($article->id) . "'>";
+                echo "<a href='edit?id=" . htmlspecialchars($article['id']) . "'>";
                 echo '<button type="button" class="btn btn-secondary">Modifier</button>';
                 echo '</a>';
                 echo '</div>';
                 echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
                 echo '<form method="post" action="crud">';
-                echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
-                echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article->id) . '" class="btn btn-danger">Supprimer</button>';
+                echo '<input type="hidden" name="token" value="' . htmlspecialchars($_SESSION['token']) . '">';
+                echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article['id']) . '" class="btn btn-danger">Supprimer</button>';
                 echo '</form>';
                 echo '</div>';
                 echo '</div>';
@@ -143,7 +159,7 @@ function displayArticles()
         }
     }
 
-    // Afficher les articles restants
+    // Afficher les articles restants (moins de 2 par catégorie)
     $rest = [];
     foreach ($grouped as $category => $catArticles) {
         if (count($catArticles) < 2) {
@@ -160,23 +176,23 @@ function displayArticles()
             echo '<div class="container-fluid">';
             echo '<div class="row">';
             echo '<div class="col-lg-1 col-12 d-flex flex-column align-items-center p-2">';
-            echo '<img class="img-fluid" src="' . htmlspecialchars($article->image) . '" >';
+            echo '<img class="img-fluid" src="' . htmlspecialchars($article['image']) . '" >';
             echo '</div>';
             echo '<div class="col-lg-9 col-12 d-flex flex-column align-items-start">';
-            echo '<p class="fs-5">' . htmlspecialchars($article->title) . '</p>';
-            echo '<p class="fs-6">' . htmlspecialchars($article->content) . '</p>';
-            echo '<p class="fs-6">' . htmlspecialchars($article->category) . '</p>';
-            echo '<p class="fs-6">Crée le : ' . htmlspecialchars($article->created_at) . ' | Modifié le : ' . htmlspecialchars($article->updated_at) . '</p>';
+            echo '<p class="fs-5">' . htmlspecialchars($article['title']) . '</p>';
+            echo '<p class="fs-6">' . htmlspecialchars($article['content']) . '</p>';
+            echo '<p class="fs-6">' . htmlspecialchars($article['category']) . '</p>';
+            echo '<p class="fs-6">Crée le : ' . htmlspecialchars($article['created_at']) . ' | Modifié le : ' . htmlspecialchars($article['updated_at']) . '</p>';
             echo '</div>';
             echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
-            echo "<a href='edit?id=" . htmlspecialchars($article->id) . "'>";
+            echo "<a href='edit?id=" . htmlspecialchars($article['id']) . "'>";
             echo '<button type="button" class="btn btn-secondary">Modifier</button>';
             echo '</a>';
             echo '</div>';
             echo '<div class="col-lg-1 col-12 d-flex flex-row align-items-center">';
             echo '<form method="post" action="crud">';
-            echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
-            echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article->id) . '" class="btn btn-danger">Supprimer</button>';
+            echo '<input type="hidden" name="token" value="' . htmlspecialchars($_SESSION['token']) . '">';
+            echo '<button type="submit" name="deleteButton" value="' . htmlspecialchars($article['id']) . '" class="btn btn-danger">Supprimer</button>';
             echo '</form>';
             echo '</div>';
             echo '</div>';
@@ -226,7 +242,8 @@ function addArticles($data, $dataF)
         'category' => $data['categorySelect'],
         'image' => $forImage,
         'created_at' => date("Y-m-d h:i:sa"),
-        'updated_at' => date("Y-m-d h:i:sa")
+        'updated_at' => date("Y-m-d h:i:sa"),
+        'creator' => $_SESSION["user"]["id"]
     ];
 
     //L'ajoute au tableau avec le reste
@@ -253,6 +270,8 @@ if ($_POST) {
 <head>
     <title>Page crud</title>
     <meta name="description" content="C'est ma page crud bravo t'es co" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.css">
+
 </head>
 <main>
     <section class="mt-5">
@@ -260,7 +279,7 @@ if ($_POST) {
             <div class="row">
                 <div class="col-12 d-flex flex-column align-items-center">
                     <div class="d-flex flex-column p-5 rounded border border-dark">
-                        <p class=" fs-1 text-center">Bienvenue <?php echo $_SESSION['user'] ?> sur la page <span class="fw-bold">crud</span>.php !</p>
+                        <p class=" fs-1 text-center">Bienvenue <?php echo $_SESSION['user']["name"] ?> sur la page <span class="fw-bold">crud</span>.php !</p>
                     </div>
                 </div>
             </div>
@@ -271,34 +290,50 @@ if ($_POST) {
                 <div class="col-12 d-flex flex-column align-items-center">
                     <form method="post" action="crud" enctype="multipart/form-data" novalidate>
                         <div class="d-flex flex-column">
-                            <p class="fs-2 text-center">Ajouter un article</p>
+                            <p class="fs-2 text-center text-decoration-underline">Ajouter un article</p>
                         </div>
                         <div class="d-flex flex-column align-items-center mb-3">
                             <span class="text-danger"><?php echo $errors['forTitle'] ?? ''; ?></span>
                             <label for="forTitle">Titre</label>
-                            <input type="text" name="forTitle" id="forTitle" placeholder="" class="form-control">
+                            <input type="text" name="forTitle" id="forTitle" placeholder="" class="form-control" onchange="previsualisation()">
                         </div>
-                        <div class="d-flex flex-column align-items-center mt-3 mb-3">
+                        <div class="mt-4 mb-3">
                             <span class="text-danger"><?php echo $errors['forContent'] ?? ''; ?></span>
-                            <label for="forContent">Contenue</label>
-                            <input type="text" name="forContent" id="forContent" placeholder="" class="form-control">
+                            <label for="forContent text-center">Contenue</label>
+                            <textarea id="forContent" name="forContent" onchange="previsualisation()"></textarea>
                         </div>
                         <div class="d-flex mb-3 flex-column align-items-center">
                             <span class="text-danger"><?php echo $errors['categorySelect'] ?? ''; ?></span>
                             <label for="categorySelect" class="fs-6 mb-1">Catégorie</label>
-                            <select class="form-select" aria-label="categorySelect" id="categorySelect" name="categorySelect">
-                                <option selected> Choissisez la catégory</option>
+                            <select class="form-select" aria-label="categorySelect" id="categorySelect" name="categorySelect" onchange="previsualisation()">
+                                <option selected value="none"> Choissisez la catégory</option>
                                 <option value="Actualité">Actualité</option>
                                 <option value="Tutoriel">Tutoriel</option>
                             </select>
                         </div>
-                        <div class=" d-flex flex-column align-items-center mt-4 mb-3 ">
+                        <div class=" d-flex flex-column align-items-center mt-4 ">
                             <span class="text-danger"><?php echo $errors['inputFileCrud'] ?? ''; ?></span>
                             <div class="input-group d-flex flex-row">
-                                <input type="file" class="form-control" name="inputFileCrud" id="inputFileCrud">
+                                <input type="file" class="form-control" name="inputFileCrud" id="inputFileCrud" onchange="previsualisation()">
                                 <label class="input-group-text" for="inputFileCrud">Image</label>
                             </div>
                         </div>
+                        <div class="d-flex flex-column align-items-center mt-5">
+                            <p class="fs-2">Previsualisation</p>
+                        </div>
+                        <div class="mb-3 mt-2 border rounded">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-lg-1 col-12 d-flex flex-column align-items-center p-2"><img class="img-fluid" id="imgPrev" src="https://placehold.co/250x250"></div>
+                                    <div class="col-lg-9 col-12 d-flex flex-column align-items-start">
+                                        <p class="fs-5" id="titlePrev">Title previsualisation</p>
+                                        <p class="fs-6" id="contentPrev">Content previsualisation</p>
+                                        <p class="fs-6" id="catPrev">category previsualisation</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="d-flex flex-column align-items-center mt-4">
                             <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?? '' ?>">
                             <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -306,10 +341,57 @@ if ($_POST) {
                     </form>
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-5">
+                <div class="col-12 mt-5">
+                    <p class="fs-1 text-center text-decoration-underline">Listes d'articles</p>
+                </div>
                 <?php displayArticles() ?>
             </div>
     </section>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.js"></script>
+<script>
+    let simplemde = new SimpleMDE({
+        element: document.getElementById("forContent")
+    });
+
+    function previsualisation() {
+        let title = document.getElementById("titlePrev")
+        let titleInput = document.getElementById("forTitle").value
+
+        let content = document.getElementById("contentPrev")
+        let contentInput = simplemde.value()
+
+        let category = document.getElementById("catPrev")
+        let categoryInput = document.getElementById("categorySelect").value
+
+        let image = document.getElementById("imgPrev");
+        let imageInput = document.getElementById("inputFileCrud").files;
+
+
+        if (titleInput != "") {
+            title.innerText = titleInput
+        }
+
+        if (contentInput != "") {
+            content.innerText = contentInput
+        }
+
+        if (categoryInput != "none") {
+            category.innerText = categoryInput
+        }
+
+        if (imageInput && imageInput[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                image.src = e.target.result;
+            }
+            reader.readAsDataURL(imageInput[0]);
+        } else {
+            image.src = "https://placehold.co/250x250";
+        }
+    }
+</script>
 
 <?php include('./private/structures/footer.php'); ?>

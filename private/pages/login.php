@@ -28,9 +28,14 @@ function validateForm($post)
 }
 
 if ($_POST) {
-    if (validateForm($_POST) && verificationLogin($_POST) && verifToken($_SESSION)) {
-        $_SESSION['user'] = $_POST['forUser'];
-        header('Location: dashboard');
+    if (validateForm($_POST) && verifToken($_SESSION)) {
+        $verif = verificationLogin($_POST);
+        if (is_array($verif)) {
+            $_SESSION['user']["name"] = $_POST['forUser'];
+            $_SESSION['user']['role'] = $verif[0];
+            $_SESSION['user']['id'] = $verif[1];
+            header('Location: dashboard');
+        }
     } else {
         $errors['forUser'] = "Erreur de connexion !";
     }

@@ -290,3 +290,13 @@ if ($_POST) {
 </main>
 
 <?php include('./private/structures/footer.php'); ?>
+
+
+<div class="d-flex flex-column align-items-center mt-3 mb-3">
+    <textarea id="forContent"></textarea>
+    <!--
+                            <span class="text-danger"><?php echo $errors['forContent'] ?? ''; ?></span>
+                            <label for="forContent">Contenue</label>
+                            <input type="text" name="forContent" id="forContent" placeholder="" class="form-control" onchange="previsualisation()">
+                            -->
+</div>

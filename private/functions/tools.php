@@ -1,5 +1,5 @@
 <?php
-$users = ["user" => "alice", "pass" => "1234"];
+$users = [["user" => "alice", "pass" => "1234", "id" => 0, "role" => "admin"], ["user" => "brigitte", "pass" => "5678", "id" => 1, "role" => "author"]];
 
 function numberStringLength($mot)
 {
@@ -11,15 +11,16 @@ function verificationLogin($data)
     if ($data) {
         global $users;
         global $errors;
-
-        if ($users["user"] === $data["forUser"]) {
-            if ($users["pass"] === $data["forPass"]) {
-                return true;
+        foreach ($users as $value) {
+            if ($value["user"] === $data["forUser"]) {
+                if ($value["pass"] === $data["forPass"]) {
+                    return [$value["role"], $value["id"]];
+                } else {
+                    $errors['forPass'] = "Le mot de passe que vous avez entré est incorrect.";
+                }
             } else {
-                $errors['forPass'] = "Le mot de passe que vous avez entré est incorrect.";
+                $errors['forUser'] = "Le nom que vous avez entré n'existe pas.";
             }
-        } else {
-            $errors['forUser'] = "Le nom que vous avez entré n'existe pas.";
         }
         return empty($errors);
     }
